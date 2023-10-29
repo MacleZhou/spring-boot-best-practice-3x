@@ -52,6 +52,10 @@
         <module>spring-boot-war</module>
 		<module>spring-boot-actuator</module>
         <module>spring-boot-aop</module>
+        <module>spring-boot-dynamic-datasource</module>
+        <module>spring-boot-dictionary</module>
+        <module>spring-boot-async</module>
+        <module>spring-boot-security</module>
     </modules>
 
     <packaging>pom</packaging>
