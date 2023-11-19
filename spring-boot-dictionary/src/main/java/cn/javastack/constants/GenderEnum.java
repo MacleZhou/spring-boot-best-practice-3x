@@ -20,22 +20,6 @@ public enum GenderEnum implements IKeyValue<Integer, String> {
 
     @Override
     public  List<KeyValue<Integer, String>> keyValues() {
-        /*
-        return Stream.of(values())
-                .map(v -> new KeyValue(v.key(), v.value()))
-                .collect(new QriverCollector<KeyValue<Integer, String>>());
-        */
-        /*
-        List<KeyValue<Integer, String>> keyValues = new ArrayList<>();
-        GenderEnum[] genderEnums = values();
-        for (int i = 0; i < genderEnums.length; i++) {
-            GenderEnum genderEnum = genderEnums[i];
-            KeyValue<Integer, String> keyValue = new KeyValue<>(genderEnum.value, genderEnum.name);
-            keyValues.add(keyValue);
-        }
-        return keyValues;
-
-         */
         return Utils.converts(values());
     }
 

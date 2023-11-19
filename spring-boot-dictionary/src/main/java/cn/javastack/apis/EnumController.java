@@ -44,7 +44,9 @@ public class EnumController {
     @ApiOperation("查询系统枚举数据")
     public List<ConstantKeyValue> findAllConstants() {
         List<ConstantKeyValue> valueList = new ArrayList<>();
-        constantService.findAll().forEach((type, keyValues) -> {
+        constantService.findAll().forEach((key, value) -> {
+            String type = (String)key;
+            List<KeyValue> keyValues = (List<KeyValue>)value;
             valueList.add(new ConstantKeyValue(type, keyValues));
         });
         return valueList;

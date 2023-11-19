@@ -22,22 +22,6 @@ public enum DepartmentEnum implements IKeyValue<String, String> {
 
     @Override
     public List<KeyValue<String, String>> keyValues() {
-        /*
-        return Stream.of(values())
-                .map(v -> new ValueName(v.getValue(), v.getName()))
-                .collect(Collectors.toList());
-        */
-        /*
-        List<KeyValue<String, String>> keyValues = new ArrayList<>();
-        DepartmentEnum[] departmentEnums = values();
-        for (int i = 0; i < departmentEnums.length; i++) {
-            DepartmentEnum departmentEnum = departmentEnums[i];
-            KeyValue<String, String> keyValue = new KeyValue<>(departmentEnum.code, departmentEnum.name);
-            keyValues.add(keyValue);
-        }
-        return keyValues;
-         */
-
         return Utils.converts(values());
     }
 
