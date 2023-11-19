@@ -17,23 +17,23 @@ import java.util.concurrent.ConcurrentMap;
 @Slf4j
 @Component("constantService")
 public class ConstantService<K, V> {
-    private ConcurrentMap<String, List<KeyValue<K, V>>> CNT_CACHE = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, List<KeyValue<K, V>>> CONSTANT_CACHE = new ConcurrentHashMap<>();
 
     public List<KeyValue<K, V>> get(String type){
-        if(CNT_CACHE.containsKey(type)){
-            return CNT_CACHE.get(type);
+        if(CONSTANT_CACHE.containsKey(type)){
+            return CONSTANT_CACHE.get(type);
         }
-        else{
+        else {
             //search from DB
         }
         return null;
     }
 
     public ConcurrentMap<String, List<KeyValue<K, V>>> findAll(){
-        return CNT_CACHE;
+        return CONSTANT_CACHE;
     }
 
-    public V get(String type, K key){
+    public V getValue(String type, K key){
         List<KeyValue<K, V>> keyValues = this.get(type);
         for (int i = 0; i < keyValues.size(); i++) {
             KeyValue<K, V> keyValue = keyValues.get(i);
@@ -44,11 +44,22 @@ public class ConstantService<K, V> {
         return null;
     }
 
+    public K getKey(String type, V value){
+        List<KeyValue<K, V>> keyValues = this.get(type);
+        for (int i = 0; i < keyValues.size(); i++) {
+            KeyValue<K, V> keyValue = keyValues.get(i);
+            if(keyValue.getValue().equals(value)){
+                return keyValue.getKey();
+            }
+        }
+        return null;
+    }
+
     @PostConstruct
     public void init(){
-        Set<String> keys = CNT_CACHE.keySet();
+        Set<String> keys = CONSTANT_CACHE.keySet();
         if (keys.isEmpty()) {
-            synchronized (CNT_CACHE) {
+            synchronized (CONSTANT_CACHE) {
                 if (keys.isEmpty()) {
                     Reflections reflections = new Reflections("cn.*");
                     reflections.getTypesAnnotatedWith(Constant.class)
@@ -87,7 +98,7 @@ public class ConstantService<K, V> {
                                         KeyValue<K, V> keyValue = new KeyValue(keyObject, valueObject);
                                         keyValues.add(keyValue);
                                     }
-                                    CNT_CACHE.put(cEnum.value(), keyValues);
+                                    CONSTANT_CACHE.put(cEnum.value(), keyValues);
                                 }
                             } catch (Exception e) {
                                 log.error("", e);
