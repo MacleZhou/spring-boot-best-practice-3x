@@ -21,10 +21,24 @@ public class EnumController {
     @Resource
     private ConstantService constantService;
 
-    @GetMapping("/constants/{type}")
+    @GetMapping("/constants-kvp/{type}")
     @ApiOperation("查询指定的系统枚举数据")
-    public List<KeyValue> findConstantsByType(@PathVariable String type) {
+    public List<KeyValue> findConstantsKVPByType(@PathVariable String type) {
         return constantService.get(type);
+    }
+
+    @GetMapping("/constants-kvs/{type}")
+    @ApiOperation("查询指定的系统枚举数据")
+    public KeyValues findConstantsKVSByType(@PathVariable String type) {
+        List<KeyValue> keyValues = constantService.get(type);
+        List keys = new ArrayList(keyValues.size());
+        List values = new ArrayList(keyValues.size());
+        for (int i = 0; i < keyValues.size(); i++) {
+            KeyValue keyValue = keyValues.get(i);
+            keys.add(keyValue.getKey());
+            values.add(keyValue.getValue());
+        }
+        return new KeyValues(keys, values);
     }
 
     @GetMapping("/constants/{type}/{key}")
@@ -40,7 +54,7 @@ public class EnumController {
         return null;
     }
 
-    @GetMapping("/constants")
+    @GetMapping("/constants-kvp")
     @ApiOperation("查询系统枚举数据")
     public List<ConstantKeyValue> findAllConstants() {
         List<ConstantKeyValue> valueList = new ArrayList<>();
@@ -52,10 +66,43 @@ public class EnumController {
         return valueList;
     }
 
+    @GetMapping("/constants-kvs")
+    @ApiOperation("查询系统枚举数据")
+    public List<ConstantKeyValues> findAllConstantsKvs() {
+        List<ConstantKeyValues> valueList = new ArrayList<>();
+        constantService.findAll().forEach((key, value) -> {
+            String type = (String)key;
+            List<KeyValue> keyValues = (List<KeyValue>)value;
+            List keys = new ArrayList(keyValues.size());
+            List values = new ArrayList(keyValues.size());
+            for (int i = 0; i < keyValues.size(); i++) {
+                KeyValue keyValue = keyValues.get(i);
+                keys.add(keyValue.getKey());
+                values.add(keyValue.getValue());
+            }
+            valueList.add(new ConstantKeyValues(type, new KeyValues(keys, values)));
+        });
+        return valueList;
+    }
+
     @Getter
     @AllArgsConstructor
     static class ConstantKeyValue{
         private String type;
         private List<KeyValue> keyValues;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static class ConstantKeyValues{
+        private String type;
+        private KeyValues keyValues;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static class KeyValues{
+        private List keys;
+        private List values;
     }
 }
