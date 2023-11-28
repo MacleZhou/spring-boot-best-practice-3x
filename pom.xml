@@ -56,6 +56,7 @@
         <module>spring-boot-dictionary</module>
         <module>spring-boot-async</module>
         <module>spring-boot-security</module>
+        <module>spring-boot-in-memory-join</module>
     </modules>
 
     <packaging>pom</packaging>
