@@ -1,13 +1,14 @@
-package cn.javastack.service.order;
+package cn.javastack.domain.repository;
 
+import cn.javastack.domain.model.entity.Order;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static cn.javastack.core.TimeUtils.sleepAsMS;
-
+import static cn.javastack.infra.utils.TimeUtils.sleepAsMS;
 
 /**
  * Created by taoli on 2022/7/30.
@@ -25,10 +26,14 @@ public class OrderRepository {
         return orders;
     }
 
-    public List<Order> getById(List<Long> ids){
+    public List<Order> getByIds(List<Long> ids){
         return ids.stream()
                 .map(id -> createOrderById(id))
                 .collect(Collectors.toList());
+    }
+
+    public Order getById(Long id){
+        return createOrderById(id);
     }
 
     private Order createOrder(long userId) {

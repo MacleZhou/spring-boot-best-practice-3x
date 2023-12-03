@@ -1,8 +1,8 @@
-package cn.javastack.joininmemory.demo.v4;
+package cn.javastack.demo.v4;
 
 
-import cn.javastack.annotation.joininmemory.JoinInMemory;
-import cn.javastack.joininmemory.demo.*;
+import cn.javastack.demo.vo.*;
+import cn.javastack.joininmemory.annotation.JoinInMemory;
 import lombok.Data;
 
 

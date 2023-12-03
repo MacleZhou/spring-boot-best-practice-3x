@@ -57,6 +57,8 @@
         <module>spring-boot-async</module>
         <module>spring-boot-security</module>
         <module>spring-boot-in-memory-join</module>
+        <module>spring-boot-in-memory-join-study</module>
+        <module>spring-boot-in-memory-join2</module>
     </modules>
 
     <packaging>pom</packaging>
