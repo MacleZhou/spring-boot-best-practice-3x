@@ -5,6 +5,7 @@ import cn.javastack.joininmemory.core.JoinItemsExecutor;
 import cn.javastack.joininmemory.core.JoinItemsExecutorFactory;
 import cn.javastack.joininmemory.core.JoinService;
 import com.google.common.collect.Maps;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.Map;
  *
  * Join 服务对外接口
  */
+@Service("joinService")
 public class DefaultJoinService implements JoinService {
     private final JoinItemsExecutorFactory joinItemsExecutorFactory;
 

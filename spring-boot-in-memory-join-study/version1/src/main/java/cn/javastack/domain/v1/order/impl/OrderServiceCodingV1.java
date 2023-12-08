@@ -1,18 +1,12 @@
 package cn.javastack.domain.v1.order.impl;
 
-import cn.javastack.domain.entity.*;
 import cn.javastack.domain.model.entity.Address;
 import cn.javastack.domain.model.entity.Order;
 import cn.javastack.domain.model.entity.Product;
 import cn.javastack.domain.model.entity.User;
 import cn.javastack.domain.model.vo.*;
-import cn.javastack.domain.repository.AddressRepository;
-import cn.javastack.domain.repository.OrderRepository;
+import cn.javastack.domain.repository.*;
 import cn.javastack.domain.service.OrderService;
-import cn.javastack.domain.repository.PayInfoRepository;
-import cn.javastack.domain.repository.ProductRepository;
-import cn.javastack.domain.repository.UserRepository;
-import cn.javastack.domain.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

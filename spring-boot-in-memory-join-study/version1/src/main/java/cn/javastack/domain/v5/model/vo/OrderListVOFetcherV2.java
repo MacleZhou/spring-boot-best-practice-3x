@@ -1,46 +1,92 @@
 package cn.javastack.domain.v5.model.vo;
 
 
-import cn.javastack.domain.model.entity.Address;
-import cn.javastack.domain.model.entity.Order;
 import cn.javastack.domain.model.vo.*;
-import cn.javastack.domain.v4.fetcher.AddressVOFetcherV1;
-import cn.javastack.domain.v4.fetcher.ProductVOFetcherV1;
-import cn.javastack.domain.v4.fetcher.UserVOFetcherV1;
 import cn.javastack.domain.v5.fetcher.AddressVOFetcherV2;
-import cn.javastack.domain.v5.fetcher.BaseItemFetcherExecutor;
+import cn.javastack.domain.v5.fetcher.ProductVOFetcherV2;
+import cn.javastack.domain.v5.fetcher.UserVOFetcherV2;
 
-import java.util.List;
+public class OrderListVOFetcherV2 extends OrderListVO implements AddressVOFetcherV2, UserVOFetcherV2, ProductVOFetcherV2 {
+    private OrderVO orderVO;
 
-public class OrderListVOFetcherV2 extends BaseItemFetcherExecutor<OrderListVO, Order, OrderVO> {
+    private AddressVO addressVO;
 
-    @Override
-    protected Long getFetchId(OrderListVO fetcher) {
-        return fetcher.getOrder().getId();
+    private UserVO userVO;
+
+    private ProductVO productVO;
+
+    public OrderListVOFetcherV2(OrderVO orderVO){
+        this.orderVO = orderVO;
+    }
+
+    public OrderVO getOrder(){
+        return this.orderVO;
     }
 
     @Override
-    protected List<Order> loadData(List<Long> ids) {
-        return null;
+    public UserVO getUser() {
+        return this.userVO;
     }
 
     @Override
-    protected Long getDataId(Order order) {
-        return null;
+    public AddressVO getAddress() {
+        return this.addressVO;
     }
 
     @Override
-    protected OrderVO convertToVo(Order order) {
-        return null;
+    public ProductVO getProduct() {
+        return this.productVO;
+    }
+
+
+    @Override
+    public Long getFetchId() {
+        return this.orderVO.getId();
     }
 
     @Override
-    protected void setResult(OrderListVO fetcher, List<OrderVO> result) {
+    public void setUser(UserVO user) {
 
     }
 
     @Override
-    public boolean support(Class<OrderListVO> cls) {
-        return false;
+    public Long getAddressId() {
+        return this.orderVO.getAddressId();
     }
+
+    @Override
+    public void setAddress(AddressVO address) {
+        this.setAddress(address);
+    }
+
+    @Override
+    public void setResult(AddressVO addressVO) {
+        this.setAddress(addressVO);
+    }
+
+    @Override
+    public Long getUserId() {
+        return this.orderVO.getUserId();
+    }
+
+    @Override
+    public void setResult(UserVO userVO) {
+        UserVOFetcherV2.super.setResult(userVO);
+    }
+
+    @Override
+    public Long getProductId() {
+        return this.orderVO.getProductId();
+    }
+
+    @Override
+    public void setProduct(ProductVO product) {
+        this.setResult(product);
+    }
+
+    @Override
+    public void setResult(ProductVO productVO) {
+        this.setProduct(productVO);
+    }
+
 }

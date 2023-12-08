@@ -1,9 +1,9 @@
 package cn.javastack.domain.v5.model.vo;
 
 import cn.javastack.domain.model.vo.*;
-import cn.javastack.domain.v5.fetcher.ItemFetcher;
+import cn.javastack.domain.v5.fetcher.*;
 
-public class OrderDetailVOFetcherV2 extends OrderDetailVO implements ItemFetcher<OrderDetailVO>{
+public class OrderDetailVOFetcherV2 extends OrderDetailVO implements UserVOFetcherV2, AddressVOFetcherV2, ProductVOFetcherV2, PayInfoVOFetcherV2 {
     private UserVO userVO;
 
     private AddressVO addressVO;
@@ -18,14 +18,15 @@ public class OrderDetailVOFetcherV2 extends OrderDetailVO implements ItemFetcher
         this.orderVO = orderVO;
     }
 
-    @Override
-    public Long getUserId() {
-        return this.userVO.getId();
-    }
-
     public void setUser(UserVO userVO) {
         this.userVO = userVO;
     }
+
+    @Override
+    public void setResult(UserVO userVO) {
+        UserVOFetcherV2.super.setResult(userVO);
+    }
+
 
     @Override
     public Long getProductId() {
@@ -39,17 +40,17 @@ public class OrderDetailVOFetcherV2 extends OrderDetailVO implements ItemFetcher
 
     @Override
     public OrderVO getOrder() {
-        return null;
+        return this.orderVO;
     }
 
     @Override
     public UserVO getUser() {
-        return null;
+        return this.userVO;
     }
 
     @Override
     public AddressVO getAddress() {
-        return null;
+        return this.addressVO;
     }
 
     @Override
@@ -72,15 +73,38 @@ public class OrderDetailVOFetcherV2 extends OrderDetailVO implements ItemFetcher
         return this.payInfo;
     }
 
-        @Override
-        public Long getFetchId() {
-            return getOrder().getId();
-        }
+    @Override
+    public Long getPayInfoId() {
+        return this.payInfo.getId();
+    }
 
-        @Override
-        public void setResult(OrderDetailVO address) {
+    @Override
+    public void setPayInfo(PayInfoVO payInfo) {
 
-        }
+    }
 
-} {
+    @Override
+    public Long getUserId() {
+        return null;
+    }
+
+    @Override
+    public Long getFetchId() {
+        return this.orderVO.getId();
+    }
+
+    @Override
+    public void setResult(ProductVO productVO) {
+        ProductVOFetcherV2.super.setResult(productVO);
+    }
+
+    @Override
+    public void setResult(PayInfoVO payInfoVO) {
+        PayInfoVOFetcherV2.super.setResult(payInfoVO);
+    }
+
+    @Override
+    public void setResult(AddressVO addressVO) {
+        AddressVOFetcherV2.super.setResult(addressVO);
+    }
 }

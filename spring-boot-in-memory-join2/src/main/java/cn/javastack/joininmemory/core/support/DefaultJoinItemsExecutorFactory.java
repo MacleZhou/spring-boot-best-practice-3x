@@ -11,6 +11,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
  * 2. 将一个 class 的 JoinItemExecutor 封装成 JoinItemsExecutor
  */
 @Slf4j
+@Component("joinItemsExecutorFactory")
 public class DefaultJoinItemsExecutorFactory implements JoinItemsExecutorFactory {
     private final List<JoinItemExecutorFactory> joinItemExecutorFactories;
     private final Map<String, ExecutorService> executorServiceMap;

@@ -1,8 +1,8 @@
-package cn.javastack.domain.v5.fetcher;
+package cn.javastack.domain.v6.fetcher;
 
 import cn.javastack.domain.model.vo.UserVO;
 
-public interface UserVOFetcherV2 extends ItemFetcher<UserVO> {
+public interface UserVOFetcherV3 extends ItemFetcher<UserVO> {
     Long getUserId();
 
     @Override

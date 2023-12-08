@@ -10,7 +10,6 @@ import cn.javastack.domain.repository.OrderRepository;
 import cn.javastack.domain.service.OrderService;
 import cn.javastack.domain.v4.model.vo.OrderDetailVOFetcherV1;
 import cn.javastack.domain.v4.model.vo.OrderListVOFetcherV1;
-import cn.javastack.domain.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;

@@ -1,6 +1,10 @@
-package cn.javastack.domain.model.vo;
+package cn.javastack.demoOrderDetail.vo;
 
-// 为配合多种实现策略，使用抽象类进行统一
+/**
+ * Created by taoli on 2022/7/31.
+ * gitee : https://gitee.com/litao851025/lego
+ * 编程就像玩 Lego
+ */
 public abstract class OrderDetailVO {
     public abstract OrderVO getOrder();
 
@@ -9,6 +13,4 @@ public abstract class OrderDetailVO {
     public abstract AddressVO getAddress();
 
     public abstract ProductVO getProduct();
-
-    public abstract PayInfoVO getPayInfo();
 }
