@@ -1,8 +1,9 @@
 package cn.javastack.demoOrderDetail.v342.fetcher;
 
+import cn.javastack.demoOrderDetail.v342.core.ItemFetcher;
 import cn.javastack.demoOrderDetail.vo.*;
 
-public class OrderDetailVOFetcherV2 extends OrderDetailVO implements AddressVOFetcherV2, UserVOFetcherV2, ProductVOFetcherV2 {
+public class OrderDetailVOFetcherV2 extends OrderDetailVO implements AddressVOFetcherV2, UserVOFetcherV2, ProductVOFetcherV2, ItemFetcher<OrderDetailVO> {
     private UserVO userVO;
 
     private AddressVO addressVO;
@@ -35,18 +36,8 @@ public class OrderDetailVOFetcherV2 extends OrderDetailVO implements AddressVOFe
         return this.productVO;
     }
 
-
-    @Override
-    public Long getUserId() {
-        return this.orderVO.getUserId();
-    }
     public void setUser(UserVO userVO) {
         this.userVO = userVO;
-    }
-
-    @Override
-    public Long getProductId() {
-        return this.orderVO.getProductId();
     }
 
     public void setProduct(ProductVO productVO){
@@ -54,13 +45,12 @@ public class OrderDetailVOFetcherV2 extends OrderDetailVO implements AddressVOFe
     }
 
     @Override
-    public Long getAddressId() {
-        return this.orderVO.getAddressId();
+    public void setAddress(AddressVO address) {
+        this.addressVO = address;
     }
 
     @Override
-    public void setAddress(AddressVO addressVO) {
-        this.addressVO = addressVO;
-    }
+    public void setResult(OrderDetailVO orderDetailVO) {
 
+    }
 }

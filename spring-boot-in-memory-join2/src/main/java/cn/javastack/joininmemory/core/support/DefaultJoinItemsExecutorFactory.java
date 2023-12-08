@@ -7,9 +7,9 @@ import cn.javastack.joininmemory.core.JoinItemExecutor;
 import cn.javastack.joininmemory.core.JoinItemExecutorFactory;
 import cn.javastack.joininmemory.core.JoinItemsExecutor;
 import cn.javastack.joininmemory.core.JoinItemsExecutorFactory;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +17,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -42,6 +45,18 @@ public class DefaultJoinItemsExecutorFactory implements JoinItemsExecutorFactory
         this.executorServiceMap = executorServiceMap;
     }
 
+    private ExecutorService defaultExecutor(){
+        BasicThreadFactory basicThreadFactory = new BasicThreadFactory.Builder()
+                .namingPattern("JoinInMemory-Thread-%d")
+                .daemon(true)
+                .build();
+        int maxSize = Runtime.getRuntime().availableProcessors() * 3;
+        return new ThreadPoolExecutor(0, maxSize,
+                60L, TimeUnit.SECONDS,
+                new SynchronousQueue<>(),
+                basicThreadFactory,
+                new ThreadPoolExecutor.CallerRunsPolicy());
+    }
 
     @Override
     public <D> JoinItemsExecutor<D> createFor(Class<D> cls) {
@@ -68,7 +83,10 @@ public class DefaultJoinItemsExecutorFactory implements JoinItemsExecutorFactory
         if (joinInMemoryConfig.executorType() == JoinInMemeoryExecutorType.PARALLEL){
             log.info("JoinInMemory for {} use parallel executor, pool is {}", cls, joinInMemoryConfig.executorName());
             ExecutorService executor = executorServiceMap.get(joinInMemoryConfig.executorName());
-            Preconditions.checkArgument(executor != null);
+            //Preconditions.checkArgument(executor != null);
+            if(null == executor) {//如果没有配置线程池，则采用默认线程池
+                executor = defaultExecutor();
+            }
             return new ParallelJoinItemsExecutor<>(cls, joinItemExecutors, executor);
         }
         throw new IllegalArgumentException();

@@ -4,10 +4,9 @@ package cn.javastack.demoOrderDetail.v342;
 import cn.javastack.demoOrderDetail.service.OrderDetailService;
 import cn.javastack.demoOrderDetail.service.order.Order;
 import cn.javastack.demoOrderDetail.service.order.OrderRepository;
-import cn.javastack.demoOrderDetail.v342.fetcher.AddressVOFetcherExecutorV2;
+import cn.javastack.demoOrderDetail.v342.core.ConcurrentFetcherService;
+import cn.javastack.demoOrderDetail.v342.core.FetcherService;
 import cn.javastack.demoOrderDetail.v342.fetcher.OrderDetailVOFetcherV2;
-import cn.javastack.demoOrderDetail.v342.fetcher.ProductVOFetcherExecutorV2;
-import cn.javastack.demoOrderDetail.v342.fetcher.UserVOFetcherExecutorV2;
 import cn.javastack.demoOrderDetail.vo.OrderDetailVO;
 import cn.javastack.demoOrderDetail.vo.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,12 @@ import static java.util.stream.Collectors.toList;
 public class OrderDetailServiceFetcherV2 implements OrderDetailService {
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private AddressVOFetcherExecutorV2 addressVOFetcherExecutorV2;
-    @Autowired
-    private ProductVOFetcherExecutorV2 productVOFetcherExecutorV2;
-    @Autowired
-    private UserVOFetcherExecutorV2 userVOFetcherExecutorV2;
 
+    @Autowired
+    private FetcherService fetcherService;
+
+    @Autowired
+    private ConcurrentFetcherService concurrentFetcherService;
 
     @Override
     public List<? extends OrderDetailVO> getByUserId(Long userId) {
@@ -39,10 +37,25 @@ public class OrderDetailServiceFetcherV2 implements OrderDetailService {
         List<OrderDetailVOFetcherV2> orderDetailVOS = orders.stream()
                 .map(order -> new OrderDetailVOFetcherV2(OrderVO.apply(order)))
                 .collect(toList());
-        // 直接使用 FetcherExecutor 完成数据绑定
-        this.addressVOFetcherExecutorV2.fetch(orderDetailVOS);
-        this.productVOFetcherExecutorV2.fetch(orderDetailVOS);
-        this.userVOFetcherExecutorV2.fetch(orderDetailVOS);
+
+        // VO 数据绑定发生变化，只需调整 VO 实现接口，此处无需变化
+        fetcherService.fetch(OrderDetailVOFetcherV2.class, orderDetailVOS);
+
+        return orderDetailVOS.stream()
+                .collect(toList());
+    }
+
+    public List<? extends OrderDetailVO> getByUserIdConcurrent(Long userId) {
+        List<Order> orders = this.orderRepository.getByUserId(userId);
+        if (CollectionUtils.isEmpty(orders)) {
+            return null;
+        }
+        List<OrderDetailVOFetcherV2> orderDetailVOS = orders.stream()
+                .map(order -> new OrderDetailVOFetcherV2(OrderVO.apply(order)))
+                .collect(toList());
+
+        // VO 数据绑定发生变化，只需调整 VO 实现接口，此处无需变化
+        concurrentFetcherService.fetch(OrderDetailVOFetcherV2.class, orderDetailVOS);
 
         return orderDetailVOS.stream()
                 .collect(toList());

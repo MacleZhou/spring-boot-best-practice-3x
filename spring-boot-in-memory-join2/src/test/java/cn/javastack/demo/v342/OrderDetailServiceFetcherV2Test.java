@@ -21,4 +21,10 @@ public class OrderDetailServiceFetcherV2Test {
         List<? extends OrderDetailVO> orderDetailVOV1List = orderDetailServiceFetcherV2.getByUserId(1l);
         log.info(JSON.toJSONString(orderDetailVOV1List));
     }
+
+    @Test
+    public void getByUserIdConcurrent(){
+        List<? extends OrderDetailVO> orderDetailVOV1List = orderDetailServiceFetcherV2.getByUserIdConcurrent(1l);
+        log.info(JSON.toJSONString(orderDetailVOV1List));
+    }
 }
