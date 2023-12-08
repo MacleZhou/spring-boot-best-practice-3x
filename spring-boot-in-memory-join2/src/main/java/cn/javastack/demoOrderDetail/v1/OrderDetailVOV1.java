@@ -14,5 +14,4 @@ public class OrderDetailVOV1 extends OrderDetailVO {
     private UserVO user;
     private AddressVO address;
     private ProductVO product;
-
 }

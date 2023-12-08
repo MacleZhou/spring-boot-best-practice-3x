@@ -10,13 +10,14 @@ import cn.javastack.demoOrderDetail.service.product.ProductRepository;
 import cn.javastack.demoOrderDetail.service.user.User;
 import cn.javastack.demoOrderDetail.service.user.UserRepository;
 import cn.javastack.demoOrderDetail.v2.OrderDetailVOV2;
-import cn.javastack.demo.vo.*;
+
 import cn.javastack.demoOrderDetail.vo.*;
 import com.google.common.collect.Lists;
 import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -51,10 +52,18 @@ public class OrderDetailServiceV3 implements OrderDetailService {
         this.executorService = Executors.newFixedThreadPool(20);
     }
 
+    /**
+     * 数据库IO : 总数据库连接次数等于 1 | 1 + 3 (次数固定，与1中返回的订单总量无关)
+     * Time : 所有的累加 1 + max ( a + p + u)
+     * */
     @SneakyThrows
     @Override
     public List<? extends OrderDetailVO> getByUserId(Long userId) {
         List<Order> orders = this.orderRepository.getByUserId(userId);
+
+        if(CollectionUtils.isEmpty(orders)){
+            return null;
+        }
 
         List<OrderDetailVOV2> orderDetailVOS = orders.stream()
                 .map(order -> new OrderDetailVOV2(OrderVO.apply(order)))

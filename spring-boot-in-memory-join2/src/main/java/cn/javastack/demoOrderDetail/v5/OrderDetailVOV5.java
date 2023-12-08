@@ -4,7 +4,7 @@ package cn.javastack.demoOrderDetail.v5;
 import cn.javastack.demoOrderDetail.annotation.JoinAddressVOOnId;
 import cn.javastack.demoOrderDetail.annotation.JoinProductVOOnId;
 import cn.javastack.demoOrderDetail.annotation.JoinUserVOOnId;
-import cn.javastack.demo.vo.*;
+
 import cn.javastack.demoOrderDetail.vo.*;
 import lombok.Data;
 

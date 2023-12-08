@@ -1,6 +1,6 @@
 package cn.javastack.demoOrderDetail.v2;
 
-import cn.javastack.demo.vo.*;
+
 import cn.javastack.demoOrderDetail.vo.*;
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package cn.javastack.demoOrderDetail.v4;
 
 
-import cn.javastack.demo.vo.*;
+
 import cn.javastack.demoOrderDetail.vo.*;
 import cn.javastack.joininmemory.annotation.JoinInMemory;
 import lombok.Data;

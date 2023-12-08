@@ -4,7 +4,6 @@ package cn.javastack.demoOrderDetail.v6;
 import cn.javastack.demoOrderDetail.annotation.JoinAddressVOOnId;
 import cn.javastack.demoOrderDetail.annotation.JoinProductVOOnId;
 import cn.javastack.demoOrderDetail.annotation.JoinUserVOOnId;
-import cn.javastack.demo.vo.*;
 import cn.javastack.demoOrderDetail.vo.*;
 import cn.javastack.joininmemory.annotation.JoinInMemeoryExecutorType;
 import cn.javastack.joininmemory.annotation.JoinInMemoryConfig;

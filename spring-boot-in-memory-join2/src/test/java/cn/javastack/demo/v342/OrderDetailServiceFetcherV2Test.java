@@ -1,7 +1,6 @@
-package cn.javastack.demo.v1;
+package cn.javastack.demo.v342;
 
-
-import cn.javastack.demoOrderDetail.v1.OrderDetailServiceV1;
+import cn.javastack.demoOrderDetail.v342.OrderDetailServiceFetcherV2;
 import cn.javastack.demoOrderDetail.vo.OrderDetailVO;
 import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
@@ -13,14 +12,13 @@ import java.util.List;
 
 @Slf4j
 @SpringBootTest
-public class OrderDetailServiceV1Test {
-
+public class OrderDetailServiceFetcherV2Test {
     @Resource
-    private OrderDetailServiceV1 orderDetailServiceV1;
+    private OrderDetailServiceFetcherV2 orderDetailServiceFetcherV2;
 
     @Test
     public void getByUserId(){
-        List<? extends OrderDetailVO> orderDetailVOV1List = orderDetailServiceV1.getByUserId(1l);
+        List<? extends OrderDetailVO> orderDetailVOV1List = orderDetailServiceFetcherV2.getByUserId(1l);
         log.info(JSON.toJSONString(orderDetailVOV1List));
     }
 }
