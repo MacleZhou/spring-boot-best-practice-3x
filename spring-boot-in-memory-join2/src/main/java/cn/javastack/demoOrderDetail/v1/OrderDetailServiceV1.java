@@ -10,7 +10,6 @@ import cn.javastack.demoOrderDetail.service.product.Product;
 import cn.javastack.demoOrderDetail.service.product.ProductRepository;
 import cn.javastack.demoOrderDetail.service.user.User;
 import cn.javastack.demoOrderDetail.service.user.UserRepository;
-import cn.javastack.demo.vo.*;
 import cn.javastack.demoOrderDetail.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
