@@ -1,6 +1,6 @@
 package cn.javastack.demo.annotation;
 
-import cn.javastack.joininmemory.annotation.JoinInMemory;
+import cn.javastack.aggregateinmemory.annotation.AggregateInMemory;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;
@@ -15,14 +15,14 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@JoinInMemory(keyFromSourceData = "",
+@AggregateInMemory(keyFromSourceData = "",
         keyFromJoinData = "#{id}",
-        loader = "#{@addressRepository.getByIds(#root)}",
-        joinDataConverter = "#{T(cn.javastack.joininmemory.demo.AddressVO).apply(#root)}"
+        loader = "#{@productRepository.getByIds(#root)}",
+        joinDataConverter = "#{T(cn.javastack.demo.vo.ProductVO).apply(#root)}"
 )
-public @interface JoinAddressVOOnId {
+public @interface JoinProductVOOnId {
     @AliasFor(
-            annotation = JoinInMemory.class
+            annotation = AggregateInMemory.class
     )
     String keyFromSourceData();
 }

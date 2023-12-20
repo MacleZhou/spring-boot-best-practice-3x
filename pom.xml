@@ -60,6 +60,7 @@
         <!--<module>spring-boot-in-memory-join-study</module>-->
         <module>spring-boot-in-memory-join2</module>
         <module>spring-boot-join-in-memory</module>
+        <module>spring-boot-aggregate-in-memory</module>
     </modules>
 
     <packaging>pom</packaging>
