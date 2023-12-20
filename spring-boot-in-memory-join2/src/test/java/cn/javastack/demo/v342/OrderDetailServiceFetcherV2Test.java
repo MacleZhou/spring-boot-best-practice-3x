@@ -1,7 +1,7 @@
 package cn.javastack.demo.v342;
 
-import cn.javastack.demoOrderDetail.v342.OrderDetailServiceFetcherV2;
-import cn.javastack.demoOrderDetail.vo.OrderDetailVO;
+import cn.javastack.jimdemo.v342.OrderDetailServiceFetcherV2;
+import cn.javastack.jimdemo.vo.OrderDetailVO;
 import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

@@ -30,9 +30,11 @@ public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<D
         super(dataCls, joinItemExecutors);
         this.executor = executor;
         this.joinExecutorWithLevel = buildJoinExecutorWithLevel();
+        log.debug("jim.ParallelJoinItemsExecutor.new");
     }
 
     private List<JoinExecutorWithLevel> buildJoinExecutorWithLevel() {
+        log.debug("jim.ParallelJoinItemsExecutor.buildJoinExecutorWithLevel.begin");
         List<JoinExecutorWithLevel> collect = getJoinItemExecutors().stream()
                 .collect(Collectors.groupingBy(joinExecutor -> joinExecutor.runOnLevel()))
                 .entrySet().stream()
@@ -45,8 +47,9 @@ public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<D
 
     @Override
     public void execute(List<DATA> datas) {
+        log.debug("jim.ParallelJoinItemsExecutor.execute.begin:" + this.joinExecutorWithLevel.size());
         this.joinExecutorWithLevel.forEach(joinExecutorWithLevel1 -> {
-            log.debug("run join on level {} use {}", joinExecutorWithLevel1.getLevel(),
+            log.debug("jim.run join on level {} use {}", joinExecutorWithLevel1.getLevel(),
                     joinExecutorWithLevel1.getJoinItemExecutors());
 
             List<Task> tasks = buildTasks(joinExecutorWithLevel1, datas);
@@ -56,14 +59,14 @@ public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<D
                     this.executor.invokeAll(tasks);
                     stopWatch.stop();
 
-                    log.debug("run execute cost {} ms, task is {}.",
+                    log.debug("jim.run execute cost {} ms, task is {}.",
                             stopWatch.getTime(TimeUnit.MILLISECONDS),
                             tasks);
                 }else {
                     this.executor.invokeAll(tasks);
                 }
             } catch (InterruptedException e) {
-                log.error("invoke task {} interrupted", tasks, e);
+                log.error("jim.invoke task {} interrupted", tasks, e);
             }
         });
     }

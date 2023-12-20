@@ -1,25 +1,47 @@
 package cn.javastack.demoProductDetail.infra.repository.dao.mapper;
 
 import cn.javastack.demoProductDetail.infra.repository.dao.entity.MedicalProductLimit;
-import org.apache.commons.lang3.RandomUtils;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+/**
+ * companyCode, productCode,   role,   category,    amount
+ * 016,         H1N100N6,      I,      LL,          200000
+ * 016,         H1N100N6,      I,      AL,          20000
+ * 016,         H1N100N6,      I,      DL,          2000
+ *
+ * */
 
 @Component("medicalProductLimitMapper")
 public class MedicalProductLimitMapper {
-    public List<MedicalProductLimit> get(String companyCode, String productCode){
+    private Map<String, List<MedicalProductLimit>> data = new HashMap<>();
+
+    @PostConstruct
+    public void init(){
         List<MedicalProductLimit> medicalProductLimits = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            MedicalProductLimit medicalProduct = new MedicalProductLimit();
-            medicalProductLimits.add(medicalProduct);
-            medicalProduct.setCompanyCode(companyCode);
-            medicalProduct.setProductCode(productCode);
-            medicalProduct.setRole("I");
-            medicalProduct.setAmount(RandomUtils.nextInt(0, 10));
-            medicalProduct.setCategory("" + medicalProduct.getAmount());
-        }
-        return medicalProductLimits;
+        medicalProductLimits.add(createData("016", "H1N100N6", "I", "LL", 200000));
+        medicalProductLimits.add(createData("016", "H1N100N6", "I", "AL", 20000));
+        medicalProductLimits.add(createData("016", "H1N100N6", "I", "DL", 2000));
+
+        data.put("H1N100N6", medicalProductLimits);
+    }
+
+    public List<MedicalProductLimit> get(String productCode){
+        return data.get(productCode);
+    }
+
+    private static MedicalProductLimit createData(String companyCode, String productCode, String role, String category, int amount) {
+        MedicalProductLimit medicalProductLimit = new MedicalProductLimit();
+        medicalProductLimit.setCompanyCode(companyCode);
+        medicalProductLimit.setProductCode(productCode);
+        medicalProductLimit.setRole(role);
+        medicalProductLimit.setCategory(category);
+        medicalProductLimit.setAmount(amount);
+        return medicalProductLimit;
     }
 }

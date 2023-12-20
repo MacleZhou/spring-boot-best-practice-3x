@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/javastack
-    username: root
-    password: NBfe@2099
-mybatis-plus:
-  type-aliases-package: cn.javastack.springboot.mybatisplus.entity

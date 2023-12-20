@@ -11,7 +11,6 @@ import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +30,6 @@ import java.util.stream.Collectors;
  * 2. 将一个 class 的 JoinItemExecutor 封装成 JoinItemsExecutor
  */
 @Slf4j
-@Component("joinItemsExecutorFactory")
 public class DefaultJoinItemsExecutorFactory implements JoinItemsExecutorFactory {
     private final List<JoinItemExecutorFactory> joinItemExecutorFactories;
     private final Map<String, ExecutorService> executorServiceMap;
@@ -43,6 +41,8 @@ public class DefaultJoinItemsExecutorFactory implements JoinItemsExecutorFactory
         // 按执行顺序进行排序
         AnnotationAwareOrderComparator.sort(this.joinItemExecutorFactories);
         this.executorServiceMap = executorServiceMap;
+        log.debug("jim.DefaultJoinItemsExecutorFactory.new=" + this.joinItemExecutorFactories.size());
+        log.debug("jim.DefaultJoinItemsExecutorFactory.new=" + this.executorServiceMap.size());
     }
 
     private ExecutorService defaultExecutor(){
@@ -51,6 +51,7 @@ public class DefaultJoinItemsExecutorFactory implements JoinItemsExecutorFactory
                 .daemon(true)
                 .build();
         int maxSize = Runtime.getRuntime().availableProcessors() * 3;
+        log.debug("jim.DefaultJoinItemsExecutorFactory.defaultExecutor.new");
         return new ThreadPoolExecutor(0, maxSize,
                 60L, TimeUnit.SECONDS,
                 new SynchronousQueue<>(),
@@ -60,28 +61,33 @@ public class DefaultJoinItemsExecutorFactory implements JoinItemsExecutorFactory
 
     @Override
     public <D> JoinItemsExecutor<D> createFor(Class<D> cls) {
+        log.debug("jim.DefaultJoinItemsExecutorFactory.createFor.begin");
         // 依次遍历 JoinItemExecutorFactory， 收集 JoinItemExecutor 信息
         List<JoinItemExecutor<D>> joinItemExecutors = this.joinItemExecutorFactories.stream()
                 .flatMap(factory -> factory.createForType(cls).stream())
                 .collect(Collectors.toList());
 
+        log.debug("jim.DefaultJoinItemsExecutorFactory.createFor.size=" + joinItemExecutors.size());
+
         // 从 class 上读取配置信息
         JoinInMemoryConfig joinInMemoryConfig = cls.getAnnotation(JoinInMemoryConfig.class);
+        log.debug("jim.DefaultJoinItemsExecutorFactory.createFor.joinInMemoryConfig=" + (null == joinInMemoryConfig ? "null" : "not-null"));
 
         // 封装为 JoinItemsExecutor
         return buildJoinItemsExecutor(cls, joinInMemoryConfig, joinItemExecutors);
     }
 
     private  <D> JoinItemsExecutor<D> buildJoinItemsExecutor(Class<D> cls, JoinInMemoryConfig joinInMemoryConfig, List<JoinItemExecutor<D>> joinItemExecutors){
+        log.debug("jim.DefaultJoinItemsExecutorFactory.buildJoinItemsExecutor.begin: " + joinItemExecutors.size());
         // 使用 串行执行器
         if(joinInMemoryConfig == null || joinInMemoryConfig.executorType() == JoinInMemeoryExecutorType.SERIAL){
-            log.info("JoinInMemory for {} use serial executor", cls);
+            log.info("jim.DefaultJoinItemsExecutorFactory.buildJoinItemsExecutor.JoinInMemory for {} use serial executor", cls);
             return new SerialJoinItemsExecutor<>(cls, joinItemExecutors);
         }
 
         // 使用 并行执行器
         if (joinInMemoryConfig.executorType() == JoinInMemeoryExecutorType.PARALLEL){
-            log.info("JoinInMemory for {} use parallel executor, pool is {}", cls, joinInMemoryConfig.executorName());
+            log.info("jim.DefaultJoinItemsExecutorFactory.buildJoinItemsExecutor.JoinInMemory for {} use parallel executor, pool is {}", cls, joinInMemoryConfig.executorName());
             ExecutorService executor = executorServiceMap.get(joinInMemoryConfig.executorName());
             //Preconditions.checkArgument(executor != null);
             if(null == executor) {//如果没有配置线程池，则采用默认线程池

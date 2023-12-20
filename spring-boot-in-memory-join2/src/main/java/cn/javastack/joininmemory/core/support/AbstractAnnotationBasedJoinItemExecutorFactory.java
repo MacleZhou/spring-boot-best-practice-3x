@@ -3,6 +3,7 @@ package cn.javastack.joininmemory.core.support;
 
 import cn.javastack.joininmemory.core.JoinItemExecutor;
 import cn.javastack.joininmemory.core.JoinItemExecutorFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
@@ -20,16 +21,19 @@ import static java.util.stream.Collectors.toList;
  * gitee : https://gitee.com/litao851025/lego
  * 编程就像玩 Lego
  */
+@Slf4j
 abstract class AbstractAnnotationBasedJoinItemExecutorFactory<A extends Annotation>
     implements JoinItemExecutorFactory {
     private final Class<A> annotationCls;
 
     protected AbstractAnnotationBasedJoinItemExecutorFactory(Class<A> annotationCls) {
         this.annotationCls = annotationCls;
+        log.debug("jim.AbstractAnnotationBasedJoinItemExecutorFactory.new=" + annotationCls.getCanonicalName());
     }
 
     @Override
     public <DATA> List<JoinItemExecutor<DATA>> createForType(Class<DATA> cls) {
+        log.debug("jim.AbstractAnnotationBasedJoinItemExecutorFactory.createForType begin : " + getClass().getCanonicalName());
         // 从 字段 上获取 注解，并将其转换为 JoinItemExecutor
         List<Field> fieldsListWithAnnotation = FieldUtils.getAllFieldsList(cls);
 
@@ -40,10 +44,12 @@ abstract class AbstractAnnotationBasedJoinItemExecutorFactory<A extends Annotati
                 .collect(toList());
     }
 
-    private <DATA> JoinItemExecutor<DATA> createForField(Class<DATA> cls, Field field,A ann) {
+    private <DATA> JoinItemExecutor<DATA> createForField(Class<DATA> cls, Field field, A ann) {
+        log.debug("jim.AbstractAnnotationBasedJoinItemExecutorFactory.createForField begin: " + cls.getCanonicalName() + "; field=" + field.getName() + "; ann=" + ann.toString());
         if (ann == null){
             return null;
         }
+        log.debug("jim.AbstractAnnotationBasedJoinItemExecutorFactory.createForField 1: " + cls.getCanonicalName() + "; field=" + field.getName() + "; ann=" + ann.toString());
         JoinItemExecutorAdapter adapter = JoinItemExecutorAdapter.builder()
                 .name(createName(cls, field, ann))
                 .runLevel(createRunLevel(cls, field, ann))

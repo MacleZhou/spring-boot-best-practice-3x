@@ -19,24 +19,30 @@ public class SerialJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<DAT
     public SerialJoinItemsExecutor(Class<DATA> dataCls,
                                    List<JoinItemExecutor<DATA>> joinItemExecutors) {
         super(dataCls, joinItemExecutors);
+        log.debug("jim.SerialJoinItemsExecutor.new {}, and joinItemExecutors={}", dataCls.getCanonicalName(), joinItemExecutors.size());
     }
 
     @Override
     public void execute(List<DATA> datas) {
-        getJoinItemExecutors().forEach(dataJoinExecutor -> {
-            log.debug("run join on level {} use {}",
+        log.debug("jim.SerialJoinItemsExecutor.execute");
+        List<JoinItemExecutor<DATA>> joinItemExecutors = getJoinItemExecutors();
+        log.debug("jim.SerialJoinItemsExecutor.execute.size=" + joinItemExecutors.size() + "; isDebugEnabled=" + log.isDebugEnabled() + ";datas=" + datas.size());
+        joinItemExecutors.forEach(dataJoinExecutor -> {
+            log.debug("jim.SerialJoinItemsExecutor.run join on level {} use {}",
                     dataJoinExecutor.runOnLevel(), dataJoinExecutor);
             if (log.isDebugEnabled()){
                 StopWatch stopWatch = StopWatch.createStarted();
                 dataJoinExecutor.execute(datas);
                 stopWatch.stop();
 
-                log.debug("run execute cost {} ms, executor is {}, data is {}.",
+                log.debug("jim.SerialJoinItemsExecutor.run execute cost {} ms, executor is {}, data is {}.",
                         stopWatch.getTime(TimeUnit.MILLISECONDS),
                         dataJoinExecutor,
                         datas);
             }else {
+                log.debug("jim.SerialJoinItemsExecutor.execute.else.begin");
                 dataJoinExecutor.execute(datas);
+                log.debug("jim.SerialJoinItemsExecutor.execute.else.end");
             }
 
         });

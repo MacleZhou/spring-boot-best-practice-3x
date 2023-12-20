@@ -5,7 +5,7 @@ import cn.javastack.joininmemory.core.JoinItemsExecutor;
 import cn.javastack.joininmemory.core.JoinItemsExecutorFactory;
 import cn.javastack.joininmemory.core.JoinService;
 import com.google.common.collect.Maps;
-import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * Join 服务对外接口
  */
-@Service("joinService")
+@Slf4j
 public class DefaultJoinService implements JoinService {
     private final JoinItemsExecutorFactory joinItemsExecutorFactory;
 
@@ -32,8 +32,10 @@ public class DefaultJoinService implements JoinService {
 
     @Override
     public <T> void joinInMemory(Class<T> tCls, List<T> t) {
+        log.debug("jim.DefaultJoinService.joinInMemory begin");
         this.cache.computeIfAbsent(tCls, this::createJoinExecutorGroup)
                 .execute(t);
+        log.debug("jim.DefaultJoinService.joinInMemory end");
     }
 
     @Override
@@ -42,6 +44,7 @@ public class DefaultJoinService implements JoinService {
     }
 
     private JoinItemsExecutor createJoinExecutorGroup(Class aClass) {
+        log.debug("jim.DefaultJoinService.createJoinExecutorGroup begin");
         return this.joinItemsExecutorFactory.createFor(aClass);
     }
 }

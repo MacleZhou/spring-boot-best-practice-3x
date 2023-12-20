@@ -6,8 +6,6 @@ public class Product {
     private String code;
     private String name;
 
-    private List<Category> categories;
-
     private List<Limit> limits;
 
     private List<Deduct> deducts;

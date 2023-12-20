@@ -22,11 +22,22 @@ public class JoinItemExecutorAdapter<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESULT>
     private final String name;
     private final int runLevel;
 
+    //调用此函数接口从SOURCE_DATA, 获取JOIN_KEY
     private final Function<SOURCE_DATA, JOIN_KEY> keyFromSourceData;
+
+    //调用此函数接口根据一组List<JOIN_KEY>, 从数据库查询并返回所有的数据记录LIST<JOIN_DATA>
     private final Function<List<JOIN_KEY>, List<JOIN_DATA>> joinDataLoader;
+
+    //调用此函数接口从查询结果就是数据库中返回的数据记录JOIN_DATA(单行记录), 返回JOIN_KEY的值
     private final Function<JOIN_DATA, JOIN_KEY> keyFromJoinData;
+
+    //调用此函数接口转换查询结果，JOIN_DATA就是数据库中返回的数据记录(单行记录), 返回结果为RESULT对象
     private final Function<JOIN_DATA, RESULT> joinDataConverter;
+
+    //如果查找到数据，则调用此函数接口，把结果List<RESULT>写入到SOURCE_DATA中
     private final BiConsumer<SOURCE_DATA, List<RESULT>> foundCallback;
+
+    //如果没有查找到数据，则调用此函数接口，把结果对应的JOIN_KEY写入到SOURCE_DATA中
     private final BiConsumer<SOURCE_DATA, JOIN_KEY> lostCallback;
 
 
@@ -38,7 +49,7 @@ public class JoinItemExecutorAdapter<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESULT>
                                    Function<JOIN_DATA, RESULT> joinDataConverter,
                                    BiConsumer<SOURCE_DATA, List<RESULT>> foundCallback,
                                    BiConsumer<SOURCE_DATA, JOIN_KEY> lostCallback) {
-
+        log.debug("jim.JoinItemExecutorAdapter.new");
         Preconditions.checkArgument(keyFromSourceData != null);
         Preconditions.checkArgument(joinDataLoader != null);
         Preconditions.checkArgument(keyFromJoinData != null);

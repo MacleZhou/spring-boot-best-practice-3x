@@ -1,25 +1,46 @@
 package cn.javastack.demoProductDetail.infra.repository.dao.mapper;
 
 import cn.javastack.demoProductDetail.infra.repository.dao.entity.MedicalProductCoshare;
-import org.apache.commons.lang3.RandomUtils;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * MedicalProductCoshare
+ * companyCode, productCode,   role,   category,    amount
+ * 016,         H1N100N6,      I,      LL,          1000
+ * 016,         H1N100N6,      I,      AL,          100
+ * 016,         H1N100N6,      I,      DL,          10
+ * */
 @Service("medicalProductCoshareMapper")
 public class MedicalProductCoshareMapper {
-    public List<MedicalProductCoshare> get(String companyCode, String productCode){
+    private Map<String, List<MedicalProductCoshare>> data = new HashMap<>();
+
+    @PostConstruct
+    public void init(){
         List<MedicalProductCoshare> medicalProductLimits = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            MedicalProductCoshare medicalProduct = new MedicalProductCoshare();
-            medicalProductLimits.add(medicalProduct);
-            medicalProduct.setCompanyCode(companyCode);
-            medicalProduct.setProductCode(productCode);
-            medicalProduct.setRole("I");
-            medicalProduct.setAmount(RandomUtils.nextInt(0, 10));
-            medicalProduct.setCategory("" + medicalProduct.getAmount());
-        }
-        return medicalProductLimits;
+        medicalProductLimits.add(createData("016", "H1N100N6", "I", "LL", 1000));
+        medicalProductLimits.add(createData("016", "H1N100N6", "I", "AL", 100));
+        medicalProductLimits.add(createData("016", "H1N100N6", "I", "DL", 10));
+
+        data.put("H1N100N6", medicalProductLimits);
+    }
+
+    private static MedicalProductCoshare createData(String companyCode, String productCode, String role, String category, int amount) {
+        MedicalProductCoshare medicalProductLimit = new MedicalProductCoshare();
+        medicalProductLimit.setCompanyCode(companyCode);
+        medicalProductLimit.setProductCode(productCode);
+        medicalProductLimit.setRole(role);
+        medicalProductLimit.setCategory(category);
+        medicalProductLimit.setAmount(amount);
+        return medicalProductLimit;
+    }
+
+    public List<MedicalProductCoshare> get(String productCode){
+        return data.get(productCode);
     }
 }

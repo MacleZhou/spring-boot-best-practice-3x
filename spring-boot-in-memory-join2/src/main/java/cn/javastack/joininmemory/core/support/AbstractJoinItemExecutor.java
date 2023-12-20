@@ -16,9 +16,9 @@ import static java.util.stream.Collectors.toList;
  * gitee : https://gitee.com/litao851025/lego
  * 编程就像玩 Lego
  *
- * @param <SOURCE_DATA> 原始数据
- * @param <JOIN_KEY> join 使用的 key
- * @param <JOIN_DATA> join 获取的 数据
+ * @param <SOURCE_DATA> 原始数据, like OrderDetailVO
+ * @param <JOIN_KEY> join 使用的 key, like id
+ * @param <JOIN_DATA> join 获取的 数据, like User
  * @param <JOIN_RESULT> 转换后的结果数据
  */
 @Slf4j
@@ -68,6 +68,7 @@ abstract class AbstractJoinItemExecutor<SOURCE_DATA, JOIN_KEY, JOIN_DATA, JOIN_R
 
     @Override
     public void execute(List<SOURCE_DATA> sourceDatas) {
+        log.debug("jim.AbstractJoinItemExecutor.execute begin: ");
         // 从源数据中提取 JoinKey
         List<JOIN_KEY> joinKeys = sourceDatas.stream()
                 .filter(Objects::nonNull)
@@ -75,24 +76,24 @@ abstract class AbstractJoinItemExecutor<SOURCE_DATA, JOIN_KEY, JOIN_DATA, JOIN_R
                 .filter(Objects::nonNull)
                 .distinct()
                 .collect(toList());
-        log.debug("get join key {} from source data {}", joinKeys, sourceDatas);
+        log.debug("jim.AbstractJoinItemExecutor.get join key {} from source data {}", joinKeys, sourceDatas);
 
         // 根据 JoinKey 获取 JoinData
         List<JOIN_DATA> allJoinDatas = getJoinDataByJoinKeys(joinKeys);
-        log.debug("get join data {} by join key {}", allJoinDatas, joinKeys);
+        log.debug("jim.AbstractJoinItemExecutor.get join data {} by join key {}", allJoinDatas, joinKeys);
 
         // 将 JoinData 以 Map 形式进行组织
         Map<JOIN_KEY, List<JOIN_DATA>> joinDataMap = allJoinDatas.stream()
                 .filter(Objects::nonNull)
                 .collect(groupingBy(this::createJoinKeyFromJoinData));
-        log.debug("group by join key, result is {}", joinDataMap);
+        log.debug("jim.AbstractJoinItemExecutor.group by join key, result is {}", joinDataMap);
 
         // 处理每一条 SourceData
         for (SOURCE_DATA data : sourceDatas){
             // 从 SourceData 中 获取 JoinKey
             JOIN_KEY joinKey = createJoinKeyFromSourceData(data);
             if (joinKey == null){
-                log.warn("join key from join data {} is null", data);
+                log.warn("jim.AbstractJoinItemExecutor.join key from join data {} is null", data);
                 continue;
             }
             // 根据 JoinKey 获取 JoinData
@@ -104,11 +105,11 @@ abstract class AbstractJoinItemExecutor<SOURCE_DATA, JOIN_KEY, JOIN_DATA, JOIN_R
                         .map(joinData -> convertToResult(joinData))
                         .collect(toList());
 
-                log.debug("success to convert join data {} to join result {}", joinDatasByKey, joinResults);
+                log.debug("jim.AbstractJoinItemExecutor.success to convert join data {} to join result {}", joinDatasByKey, joinResults);
                 onFound(data, joinResults);
-                log.debug("success to write join result {} to source data {}", joinResults, data);
+                log.debug("jim.AbstractJoinItemExecutor.success to write join result {} to source data {}", joinResults, data);
             }else {
-                log.warn("join data lost by join key {} for source data {}", joinKey, data);
+                log.warn("jim.AbstractJoinItemExecutor.join data lost by join key {} for source data {}", joinKey, data);
                 // 为获取到 JoinData，进行 notFound 回调
                 onNotFound(data, joinKey);
             }

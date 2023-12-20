@@ -1,23 +1,55 @@
 package cn.javastack.demoProductDetail.infra.repository.dao.mapper;
 
 import cn.javastack.demoProductDetail.infra.repository.dao.entity.MedicalLimitCategory;
-import org.apache.commons.lang3.RandomUtils;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+/**
+ * MedicalLimitCategory
+ * companyCode, code,   shortName,       ageFrom,    ageTo,     ageUnit
+ * 016,         LL,     Lifetime Limit,  16,         65,        YEAR
+ * 016,         AL,     Annual Limit,    16,         65,        YEAR
+ * 016,         DL,     Disability Limit,16,         65,        YEAR
+ * 016,         VL,     Visit Limit,     16,         65,        YEAR
+ * **/
 
 @Service("medicalLimitCategoryMapper")
 public class MedicalLimitCategoryMapper {
-    public List<MedicalLimitCategory> get(String companyCode, List<String> codes){
+    private Map<String, MedicalLimitCategory> data = new HashMap<>();
+
+    @PostConstruct
+    public void init(){
+        data.put("LL", createData("LL", "Lifetime Limit"));
+        data.put("AL", createData("AL", "Annual Limit"));
+        data.put("DL", createData("DL", "Disability Limit"));
+        data.put("VL", createData("VL", "Visit Limit"));
+    }
+
+    private static MedicalLimitCategory createData(String code, String shortName) {
+        MedicalLimitCategory medicalProductLimit = new MedicalLimitCategory();
+        medicalProductLimit.setCompanyCode("016");
+        medicalProductLimit.setCode(code);
+        medicalProductLimit.setShortName(shortName);
+        medicalProductLimit.setAgeFrom(16);
+        medicalProductLimit.setAgeTo(65);
+        medicalProductLimit.setAgeUnit("YEAR");
+        return medicalProductLimit;
+    }
+
+
+    public List<MedicalLimitCategory> get(Set<String> codes) {
         List<MedicalLimitCategory> medicalProductLimits = new ArrayList<>();
-        for (int i = 0; i < codes.size(); i++) {
-            MedicalLimitCategory medicalProduct = new MedicalLimitCategory();
-            medicalProductLimits.add(medicalProduct);
-            medicalProduct.setCode(codes.get(i));
-            medicalProduct.setShortName("SN-" + codes.get(i));
-            medicalProduct.setValueType(RandomUtils.nextBoolean()? 0 : 1);
-        }
+        data.forEach((k, v) -> {
+            if(codes.contains(k)){
+                medicalProductLimits.add(v);
+            }
+        });
         return medicalProductLimits;
+    }
+
+    public MedicalLimitCategory get(String code) {
+        return data.get(code);
     }
 }

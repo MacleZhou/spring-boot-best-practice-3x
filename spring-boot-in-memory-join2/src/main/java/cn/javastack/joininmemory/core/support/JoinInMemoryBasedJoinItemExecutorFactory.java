@@ -31,12 +31,13 @@ public class JoinInMemoryBasedJoinItemExecutorFactory extends AbstractAnnotation
     public JoinInMemoryBasedJoinItemExecutorFactory(BeanResolver beanResolver) {
         super(JoinInMemory.class);
         this.beanResolver = beanResolver;
+        log.debug("jim.JoinInMemoryBasedJoinItemExecutorFactory.new");
     }
 
 
     @Override
     protected <DATA> BiConsumer<Object, List<Object>> createFoundFunction(Class<DATA> cls, Field field, JoinInMemory ann) {
-        log.info("write field is {} for class {}", field.getName(), cls);
+        log.info("jim.JoinInMemoryBasedJoinItemExecutorFactory.createFoundFunction.write field is {} for class {}", field.getName(), cls);
         boolean isCollection = Collection.class.isAssignableFrom(field.getType());
         return new DataSetter(field.getName(), isCollection);
     }
@@ -44,38 +45,38 @@ public class JoinInMemoryBasedJoinItemExecutorFactory extends AbstractAnnotation
     @Override
     protected <DATA> Function<Object, Object> createDataConverter(Class<DATA> cls, Field field, JoinInMemory ann) {
         if (StringUtils.isEmpty(ann.joinDataConverter())){
-            log.info("No Data Convert for class {}, field {}", cls, field.getName());
+            log.info("jim.JoinInMemoryBasedJoinItemExecutorFactory.createDataConverter.No Data Convert for class {}, field {}", cls, field.getName());
             return Function.identity();
         }else {
-            log.info("Data Convert is {} for class {}, field {}", ann.joinDataConverter(), cls, field.getName());
+            log.info("jim.JoinInMemoryBasedJoinItemExecutorFactory.createDataConverter.Data Convert is {} for class {}, field {}", ann.joinDataConverter(), cls, field.getName());
             return new DataGetter(ann.joinDataConverter());
         }
     }
 
     @Override
     protected <DATA> Function<Object, Object> createKeyGeneratorFromJoinData(Class<DATA> cls, Field field, JoinInMemory ann) {
-        log.info("Key from join data is {} for class {}, field {}",
+        log.info("jim.JoinInMemoryBasedJoinItemExecutorFactory.createKeyGeneratorFromJoinData.Key from join data is {} for class {}, field {}",
                 ann.keyFromJoinData(), cls, field.getName());
         return new DataGetter(ann.keyFromJoinData());
     }
 
     @Override
     protected <DATA> Function<List<Object>, List<Object>> createDataLoader(Class<DATA> cls, Field field, JoinInMemory ann) {
-        log.info("data loader is {} for class {}, field {}",
+        log.info("jim.JoinInMemoryBasedJoinItemExecutorFactory.createDataLoader.data loader is {} for class {}, field {}",
                 ann.loader(), cls, field.getName());
         return new DataGetter(ann.loader());
     }
 
     @Override
     protected <DATA> Function<Object, Object> createKeyGeneratorFromData(Class<DATA> cls, Field field, JoinInMemory ann) {
-        log.info("Key from source data is {} for class {}, field {}",
+        log.info("jim.JoinInMemoryBasedJoinItemExecutorFactory.createKeyGeneratorFromData.Key from source data is {} for class {}, field {}",
                 ann.keyFromJoinData(), cls, field.getName());
         return new DataGetter(ann.keyFromSourceData());
     }
 
     @Override
     protected <DATA> int createRunLevel(Class<DATA> cls, Field field, JoinInMemory ann) {
-        log.info("run level is {} for class {}, field {}",
+        log.info("jim.JoinInMemoryBasedJoinItemExecutorFactory.createRunLevel.run level is {} for class {}, field {}",
                 ann.runLevel(), cls, field.getName());
         return ann.runLevel();
     }
