@@ -35,7 +35,7 @@ public class AggregateInMemoryBasedAggregateItemExecutorFactory extends Abstract
 
 
     @Override
-    protected <DATA> BiConsumer<Object, List<Object>> createFoundFunction(Class<DATA> cls, Field field, AggregateInMemory ann) {
+    protected <DATA> BiConsumer<Object, Object> createFoundFunction(Class<DATA> cls, Field field, AggregateInMemory ann) {
         log.info("write field is {} for class {}", field.getName(), cls);
         boolean isCollection = Collection.class.isAssignableFrom(field.getType());
         return new DataSetter(field.getName(), isCollection);
@@ -53,23 +53,23 @@ public class AggregateInMemoryBasedAggregateItemExecutorFactory extends Abstract
     }
 
     @Override
-    protected <DATA> Function<Object, Object> createKeyGeneratorFromJoinData(Class<DATA> cls, Field field, AggregateInMemory ann) {
+    protected <DATA> Function<Object, Object> createKeyGroupbyFromJoinData(Class<DATA> cls, Field field, AggregateInMemory ann) {
         log.info("Key from join data is {} for class {}, field {}",
-                ann.keyFromJoinData(), cls, field.getName());
-        return new DataGetter(ann.keyFromJoinData());
+                ann.keyToGroupbyData(), cls, field.getName());
+        return new DataGetter(ann.keyToGroupbyData());
     }
 
     @Override
-    protected <DATA> Function<List<Object>, List<Object>> createDataLoader(Class<DATA> cls, Field field, AggregateInMemory ann) {
+    protected <DATA> Function<Object, List<Object>> createDataLoader(Class<DATA> cls, Field field, AggregateInMemory ann) {
         log.info("data loader is {} for class {}, field {}",
                 ann.loader(), cls, field.getName());
         return new DataGetter(ann.loader());
     }
 
     @Override
-    protected <DATA> Function<Object, Object> createKeyGeneratorFromData(Class<DATA> cls, Field field, AggregateInMemory ann) {
+    protected <DATA> Function<Object, Object> createKeyGeneratorFromSourceData(Class<DATA> cls, Field field, AggregateInMemory ann) {
         log.info("Key from source data is {} for class {}, field {}",
-                ann.keyFromJoinData(), cls, field.getName());
+                ann.keyToGroupbyData(), cls, field.getName());
         return new DataGetter(ann.keyFromSourceData());
     }
 
@@ -80,7 +80,7 @@ public class AggregateInMemoryBasedAggregateItemExecutorFactory extends Abstract
         return ann.runLevel();
     }
 
-    private class DataSetter<T, U> implements BiConsumer<Object, List<Object>>{
+    private class DataSetter<T, U> implements BiConsumer<Object, Object>{
         private final String fieldName;
         private final boolean isCollection;
         private final Expression expression;
@@ -92,7 +92,9 @@ public class AggregateInMemoryBasedAggregateItemExecutorFactory extends Abstract
         }
 
         @Override
-        public void accept(Object data, List<Object> result) {
+        public void accept(Object data, Object result) {
+            this.expression.setValue(data, result);
+            /*
             if (isCollection) {
                 this.expression.setValue(data, result);
             }else {
@@ -106,6 +108,7 @@ public class AggregateInMemoryBasedAggregateItemExecutorFactory extends Abstract
                             result);
                 }
             }
+            */
         }
     }
 
@@ -116,9 +119,12 @@ public class AggregateInMemoryBasedAggregateItemExecutorFactory extends Abstract
 
         private DataGetter(String expStr) {
             this.expStr = expStr;
-            this.expression = parser.parseExpression(expStr, templateParserContext);
-            StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
-            evaluationContext.setBeanResolver(beanResolver);
+            this.expression = StringUtils.isNoneBlank(this.expStr) ? parser.parseExpression(expStr, templateParserContext) : null;
+            StandardEvaluationContext evaluationContext = null;
+            if(StringUtils.isNoneBlank(expStr)){
+                evaluationContext = new StandardEvaluationContext();
+                evaluationContext.setBeanResolver(beanResolver);
+            }
             this.evaluationContext = evaluationContext;
         }
 
@@ -128,7 +134,7 @@ public class AggregateInMemoryBasedAggregateItemExecutorFactory extends Abstract
                 return null;
             }
 
-            return expression.getValue(evaluationContext, data);
+            return StringUtils.isNoneBlank(this.expStr) ? expression.getValue(evaluationContext, data) : null;
         }
     }
 }

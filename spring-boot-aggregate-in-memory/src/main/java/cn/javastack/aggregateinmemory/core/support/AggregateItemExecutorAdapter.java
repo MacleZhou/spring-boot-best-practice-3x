@@ -23,32 +23,32 @@ public class AggregateItemExecutorAdapter<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESU
     private final int runLevel;
 
     private final Function<SOURCE_DATA, JOIN_KEY> keyFromSourceData;
-    private final Function<List<JOIN_KEY>, List<JOIN_DATA>> joinDataLoader;
-    private final Function<JOIN_DATA, JOIN_KEY> keyFromJoinData;
+    private final Function<JOIN_KEY, List<JOIN_DATA>> joinDataLoader;
+    private final Function<JOIN_DATA, JOIN_KEY> keyGroupbyJoinData;
     private final Function<JOIN_DATA, RESULT> joinDataConverter;
-    private final BiConsumer<SOURCE_DATA, List<RESULT>> foundCallback;
+    private final BiConsumer<SOURCE_DATA, Object> foundCallback;
     private final BiConsumer<SOURCE_DATA, JOIN_KEY> lostCallback;
 
 
     public AggregateItemExecutorAdapter(String name,
                                         Integer runLevel,
                                         Function<SOURCE_DATA, JOIN_KEY> keyFromSourceData,
-                                        Function<List<JOIN_KEY>, List<JOIN_DATA>> joinDataLoader,
-                                        Function<JOIN_DATA, JOIN_KEY> keyFromJoinData,
+                                        Function<JOIN_KEY, List<JOIN_DATA>> joinDataLoader,
+                                        Function<JOIN_DATA, JOIN_KEY> keyGroupbyJoinData,
                                         Function<JOIN_DATA, RESULT> joinDataConverter,
-                                        BiConsumer<SOURCE_DATA, List<RESULT>> foundCallback,
+                                        BiConsumer<SOURCE_DATA, Object> foundCallback,
                                         BiConsumer<SOURCE_DATA, JOIN_KEY> lostCallback) {
 
         Preconditions.checkArgument(keyFromSourceData != null);
         Preconditions.checkArgument(joinDataLoader != null);
-        Preconditions.checkArgument(keyFromJoinData != null);
+        Preconditions.checkArgument(keyGroupbyJoinData != null);
         Preconditions.checkArgument(joinDataConverter != null);
         Preconditions.checkArgument(foundCallback != null);
 
         this.name = name;
         this.keyFromSourceData = keyFromSourceData;
         this.joinDataLoader = joinDataLoader;
-        this.keyFromJoinData = keyFromJoinData;
+        this.keyGroupbyJoinData = keyGroupbyJoinData;
         this.joinDataConverter = joinDataConverter;
         this.foundCallback = foundCallback;
 
@@ -71,13 +71,13 @@ public class AggregateItemExecutorAdapter<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESU
     }
 
     @Override
-    protected List<JOIN_DATA> getJoinDataByJoinKeys(List<JOIN_KEY> joinKeys) {
-        return this.joinDataLoader.apply(joinKeys);
+    protected Object getJoinDataByJoinKeys(JOIN_KEY joinKey) {
+        return this.joinDataLoader.apply(joinKey);
     }
 
     @Override
     protected JOIN_KEY createJoinKeyFromJoinData(JOIN_DATA joinData) {
-        return this.keyFromJoinData.apply(joinData);
+        return this.keyGroupbyJoinData.apply(joinData);
     }
 
     @Override
@@ -86,8 +86,8 @@ public class AggregateItemExecutorAdapter<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESU
     }
 
     @Override
-    protected void onFound(SOURCE_DATA data, List<RESULT> JoinResults) {
-        this.foundCallback.accept(data, JoinResults);
+    protected void onFound(SOURCE_DATA data, Object joinResult) {
+        this.foundCallback.accept(data, joinResult);
     }
 
     @Override

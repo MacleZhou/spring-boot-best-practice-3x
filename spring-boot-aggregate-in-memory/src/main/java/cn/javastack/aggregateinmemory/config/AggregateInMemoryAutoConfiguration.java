@@ -56,7 +56,7 @@ public class AggregateInMemoryAutoConfiguration {
                 .build();
         int maxSize = Runtime.getRuntime().availableProcessors() * 3;
         return new ThreadPoolExecutor(0, maxSize,
-                60L, TimeUnit.SECONDS,
+                600L, TimeUnit.SECONDS,
                 new SynchronousQueue<>(),
                 basicThreadFactory,
                 new ThreadPoolExecutor.CallerRunsPolicy());

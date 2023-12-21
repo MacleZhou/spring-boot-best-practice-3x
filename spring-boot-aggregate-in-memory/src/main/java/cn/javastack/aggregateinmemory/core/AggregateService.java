@@ -16,21 +16,21 @@ public interface AggregateService {
      * 执行内存 join
      * @param t
      */
-    default <T> void joinInMemory(T t){
+    default <T> void aggregateInMemory(T t){
         if (t == null){
             return;
         }
-        joinInMemory((Class<T>) t.getClass(), Collections.singletonList(t));
+        aggregateInMemory((Class<T>) t.getClass(), Collections.singletonList(t));
     }
 
-    default <T> void joinInMemory(List<T> t){
+    default <T> void aggregateInMemory(List<T> t){
         if (CollectionUtils.isEmpty(t)){
             return;
         }
         if (t.size() == 1){
-            joinInMemory(t.get(0));
+            aggregateInMemory(t.get(0));
         }else {
-            joinInMemory((Class<T>) t.get(0).getClass(), t);
+            aggregateInMemory((Class<T>) t.get(0).getClass(), t);
         }
     }
 
@@ -39,7 +39,7 @@ public interface AggregateService {
      * @param tCls 实际类型
      * @param t 需要抓取的集合
      */
-    <T> void joinInMemory(Class<T> tCls, List<T> t);
+    <T> void aggregateInMemory(Class<T> tCls, List<T> t);
 
     /**
      * 注册一个类型，主要用于初始化

@@ -23,7 +23,7 @@ public @interface AggregateInMemory {
      * 从 joinData 中提取 key
      * @return
      */
-    String keyFromJoinData();
+    String keyToGroupbyData() default "";
 
     /**
      * 批量数据抓取

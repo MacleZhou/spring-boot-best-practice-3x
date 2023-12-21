@@ -29,7 +29,7 @@ public class DefaultAggregateService implements AggregateService {
     }
 
     @Override
-    public <T> void joinInMemory(Class<T> tCls, List<T> t) {
+    public <T> void aggregateInMemory(Class<T> tCls, List<T> t) {
         this.cache.computeIfAbsent(tCls, this::createJoinExecutorGroup)
                 .execute(t);
     }

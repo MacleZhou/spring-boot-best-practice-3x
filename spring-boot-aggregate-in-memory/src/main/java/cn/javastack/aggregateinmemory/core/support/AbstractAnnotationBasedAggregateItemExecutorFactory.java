@@ -47,9 +47,9 @@ abstract class AbstractAnnotationBasedAggregateItemExecutorFactory<A extends Ann
         AggregateItemExecutorAdapter adapter = AggregateItemExecutorAdapter.builder()
                 .name(createName(cls, field, ann))
                 .runLevel(createRunLevel(cls, field, ann))
-                .keyFromSourceData(createKeyGeneratorFromData(cls, field, ann))
+                .keyFromSourceData(createKeyGeneratorFromSourceData(cls, field, ann))
                 .joinDataLoader(createDataLoader(cls, field, ann))
-                .keyFromJoinData(createKeyGeneratorFromJoinData(cls, field, ann))
+                .keyGroupbyJoinData(createKeyGroupbyFromJoinData(cls, field, ann))
                 .joinDataConverter(createDataConverter(cls, field, ann))
                 .foundCallback(createFoundFunction(cls, field, ann))
                 .lostCallback(createLostFunction(cls, field, ann))
@@ -62,15 +62,15 @@ abstract class AbstractAnnotationBasedAggregateItemExecutorFactory<A extends Ann
         return null;
     }
 
-    protected abstract <DATA> BiConsumer<Object, List<Object>> createFoundFunction(Class<DATA> cls, Field field, A ann);
+    protected abstract <DATA> BiConsumer<Object, Object> createFoundFunction(Class<DATA> cls, Field field, A ann);
 
     protected abstract <DATA> Function<Object, Object> createDataConverter(Class<DATA> cls, Field field, A ann);
 
-    protected abstract <DATA> Function<Object, Object> createKeyGeneratorFromJoinData(Class<DATA> cls, Field field, A ann);
+    protected abstract <DATA> Function<Object, Object> createKeyGroupbyFromJoinData(Class<DATA> cls, Field field, A ann);
 
-    protected abstract <DATA> Function<List<Object>, List<Object>> createDataLoader(Class<DATA> cls, Field field, A ann);
+    protected abstract <DATA> Function<Object, List<Object>> createDataLoader(Class<DATA> cls, Field field, A ann);
 
-    protected abstract <DATA> Function<Object, Object> createKeyGeneratorFromData(Class<DATA> cls, Field field, A ann);
+    protected abstract <DATA> Function<Object, Object> createKeyGeneratorFromSourceData(Class<DATA> cls, Field field, A ann);
 
     protected abstract <DATA> int createRunLevel(Class<DATA> cls, Field field, A ann);
 
