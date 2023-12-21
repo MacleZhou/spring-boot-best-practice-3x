@@ -56,11 +56,9 @@
         <module>spring-boot-dictionary</module>
         <module>spring-boot-async</module>
         <module>spring-boot-security</module>
-        <module>spring-boot-in-memory-join</module>
-        <!--<module>spring-boot-in-memory-join-study</module>-->
-        <module>spring-boot-in-memory-join2</module>
         <module>spring-boot-join-in-memory</module>
         <module>spring-boot-aggregate-in-memory</module>
+        <module>spring-boot-jaimini</module>
     </modules>
 
     <packaging>pom</packaging>
