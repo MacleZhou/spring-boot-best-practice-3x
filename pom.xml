@@ -59,6 +59,7 @@
         <module>spring-boot-join-in-memory</module>
         <module>spring-boot-aggregate-in-memory</module>
         <module>spring-boot-jaimini</module>
+        <module>spring-boot-mybatis-generator-ui</module>
     </modules>
 
     <packaging>pom</packaging>

@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<DATA> {
     private final ExecutorService executor;
-    private final List<JoinExecutorWithLevel> joinExecutorWithLevel;
+    private final List<JoinExecutorWithLevel> joinExecutorWithLevels;
     public ParallelJoinItemsExecutor(Class<DATA> dataCls,
                                      List<JoinItemExecutor<DATA>> joinItemExecutors,
                                      ExecutorService executor) {
         super(dataCls, joinItemExecutors);
         this.executor = executor;
-        this.joinExecutorWithLevel = buildJoinExecutorWithLevel();
+        this.joinExecutorWithLevels = buildJoinExecutorWithLevel();
     }
 
     private List<JoinExecutorWithLevel> buildJoinExecutorWithLevel() {
@@ -42,20 +42,16 @@ public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<D
 
     @Override
     public void execute(List<DATA> datas) {
-        this.joinExecutorWithLevel.forEach(joinExecutorWithLevel1 -> {
-            log.debug("run join on level {} use {}", joinExecutorWithLevel1.getLevel(),
-                    joinExecutorWithLevel1.getJoinItemExecutors());
+        this.joinExecutorWithLevels.forEach(joinExecutorWithLevel -> {
+            log.debug("run join on level {} use {}", joinExecutorWithLevel.getLevel(), joinExecutorWithLevel.getJoinItemExecutors());
 
-            List<Task> tasks = buildTasks(joinExecutorWithLevel1, datas);
+            List<Task> tasks = buildTasks(joinExecutorWithLevel, datas);
             try {
                 if (log.isDebugEnabled()) {
                     StopWatch stopWatch = StopWatch.createStarted();
                     this.executor.invokeAll(tasks);
                     stopWatch.stop();
-
-                    log.debug("run execute cost {} ms, task is {}.",
-                            stopWatch.getTime(TimeUnit.MILLISECONDS),
-                            tasks);
+                    log.debug("run execute cost {} ms, task is {}.", stopWatch.getTime(TimeUnit.MILLISECONDS), tasks);
                 }else {
                     this.executor.invokeAll(tasks);
                 }
