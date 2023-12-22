@@ -16,9 +16,7 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by taoli on 2022/8/5.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 根据类创建类的所有执行器
  */
 abstract class AbstractAnnotationBasedJoinItemExecutorFactory<A extends Annotation>
     implements JoinItemExecutorFactory {

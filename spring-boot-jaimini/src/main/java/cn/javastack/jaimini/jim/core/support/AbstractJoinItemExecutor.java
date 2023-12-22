@@ -12,9 +12,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by taoli on 2022/7/31.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 执行器，实现一个Field的join
  *
  * @param <SOURCE_DATA> 原始数据
  * @param <JOIN_KEY> join 使用的 key

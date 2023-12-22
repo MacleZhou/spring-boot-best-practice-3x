@@ -12,9 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by taoli on 2022/7/31.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 根据runLevel由小到大排序所有的执行器
  */
 abstract class AbstractJoinItemsExecutor<DATA>
         implements JoinItemsExecutor<DATA> {

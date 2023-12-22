@@ -1,9 +1,6 @@
 package cn.javastack.jaimini.jim.core;
 
 /**
- * Created by taoli on 2022/7/31.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
  *
  * 工厂类，从 class 中解析信息，并创建 JoinItemsExecutor
  */

@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by taoli on 2022/7/31.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
  *
  * 串行执行器，多个 join 操作顺序执行
  */

@@ -6,9 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by taoli on 2022/8/5.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * Annotation for aggregate in memory
  */
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

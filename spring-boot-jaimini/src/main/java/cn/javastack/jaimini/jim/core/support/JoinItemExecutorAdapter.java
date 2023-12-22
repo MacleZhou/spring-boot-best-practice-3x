@@ -10,9 +10,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
- * Created by taoli on 2022/7/31.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 执行器的适配器，保存各执行器的函数及回调接口
  */
 @Slf4j
 @Builder

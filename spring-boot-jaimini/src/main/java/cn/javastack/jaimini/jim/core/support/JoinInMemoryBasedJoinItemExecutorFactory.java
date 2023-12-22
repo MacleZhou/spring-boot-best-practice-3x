@@ -18,9 +18,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
- * Created by taoli on 2022/8/5.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 根据Annotation，生成各接口
  */
 @Slf4j
 public class JoinInMemoryBasedJoinItemExecutorFactory extends AbstractAnnotationBasedJoinItemExecutorFactory<JoinInMemory> {

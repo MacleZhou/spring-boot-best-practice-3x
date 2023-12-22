@@ -6,9 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by taoli on 2022/8/5.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 定义每个类级别的线程池和是否串行或并行
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

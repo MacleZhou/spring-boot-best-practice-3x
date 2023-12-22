@@ -1,9 +1,7 @@
 package cn.javastack.jaimini.jim.annotation;
 
 /**
- * Created by taoli on 2022/8/5.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 串行还是并行Join
  */
 public enum JoinInMemeoryExecutorType {
     PARALLEL, // 并行执行

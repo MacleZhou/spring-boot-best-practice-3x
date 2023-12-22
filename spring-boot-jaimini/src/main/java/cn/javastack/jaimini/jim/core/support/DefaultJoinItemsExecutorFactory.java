@@ -19,10 +19,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
 /**
- * Created by taoli on 2022/8/5.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
- *
  * 1. 使用 JoinItemExecutorFactory 为每个 Join 数据 创建 JoinItemExecutor <br />
  * 2. 将一个 class 的 JoinItemExecutor 封装成 JoinItemsExecutor
  */

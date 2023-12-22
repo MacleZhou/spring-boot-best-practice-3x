@@ -10,9 +10,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
- * Created by taoli on 2022/7/31.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 定义AggregateItemExecutor的Adaptor
  */
 @Slf4j
 @Builder

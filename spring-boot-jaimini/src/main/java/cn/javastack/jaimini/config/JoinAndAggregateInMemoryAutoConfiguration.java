@@ -28,9 +28,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by taoli on 2022/8/6.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * 配置Join & Aggregate到Spring容器中
  */
 @Configuration
 @Slf4j

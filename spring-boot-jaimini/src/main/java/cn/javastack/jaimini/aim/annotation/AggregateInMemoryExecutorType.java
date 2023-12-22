@@ -1,9 +1,7 @@
 package cn.javastack.jaimini.aim.annotation;
 
 /**
- * Created by taoli on 2022/8/5.
- * gitee : https://gitee.com/litao851025/lego
- * 编程就像玩 Lego
+ * Enumeration to define serial or parallel execute
  */
 public enum AggregateInMemoryExecutorType {
     PARALLEL, // 并行执行

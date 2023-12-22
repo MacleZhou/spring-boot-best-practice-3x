@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static cn.javastack.jimdemo.utils.TimeUtils.sleepAsMS;
+
 /**
  * MedicalBenefit
  * companyCode, code,   name
@@ -50,6 +52,7 @@ public class MedicalBenefitMapper {
 
 
     public List<MedicalBenefit> get(List<String> codes) {
+        sleepAsMS(9);
         List<MedicalBenefit> medicalProductLimits = new ArrayList<>();
         for (int i = 0; i < codes.size(); i++) {
             medicalProductLimits.add(this.get(codes.get(i)));
@@ -58,6 +61,7 @@ public class MedicalBenefitMapper {
     }
 
     public MedicalBenefit get(String code) {
+        sleepAsMS(1);
         MedicalBenefit medicalProduct = new MedicalBenefit();
         medicalProduct.setCode(code);
         medicalProduct.setName("SN-" + code);

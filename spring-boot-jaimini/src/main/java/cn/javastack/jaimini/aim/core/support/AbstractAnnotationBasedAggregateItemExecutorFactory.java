@@ -16,7 +16,7 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 
 /**
- *
+ * 根据AggregateInMemory annotation解析生成所有的执行器AggregateItemExecutor
  */
 abstract class AbstractAnnotationBasedAggregateItemExecutorFactory<A extends Annotation>
     implements AggregateItemExecutorFactory {

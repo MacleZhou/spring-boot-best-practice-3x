@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static cn.javastack.jimdemo.utils.TimeUtils.sleepAsMS;
+
 /**
  * MedicalLimitCategory
  * companyCode, code,   shortName,       ageFrom,    ageTo,     ageUnit
@@ -40,6 +42,7 @@ public class MedicalLimitCategoryMapper {
 
 
     public List<MedicalLimitCategory> get(Set<String> codes) {
+        sleepAsMS(4);
         List<MedicalLimitCategory> medicalProductLimits = new ArrayList<>();
         data.forEach((k, v) -> {
             if(codes.contains(k)){
