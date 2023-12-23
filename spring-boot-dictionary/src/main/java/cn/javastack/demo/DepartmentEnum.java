@@ -1,6 +1,8 @@
-package cn.javastack.constants;
+package cn.javastack.demo;
 
-@Constant("department")
+import cn.javastack.constants.ConstantKV;
+
+@ConstantKV("department")
 public enum DepartmentEnum {
 
     SOFTWARE(1, "SD", "Software Department"),

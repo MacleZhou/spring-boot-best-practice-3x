@@ -1,6 +1,8 @@
-package cn.javastack.constants;
+package cn.javastack.demo;
 
-@Constant("gender")
+import cn.javastack.constants.ConstantKV;
+
+@ConstantKV("gender")
 public enum GenderEnum {
 
     MALE(0, "男"),

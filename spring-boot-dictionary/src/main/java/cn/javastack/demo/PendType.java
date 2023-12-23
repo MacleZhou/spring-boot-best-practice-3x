@@ -1,6 +1,8 @@
-package cn.javastack.constants;
+package cn.javastack.demo;
 
-@Constant("pendType")
+import cn.javastack.constants.ConstantKV;
+
+@ConstantKV("pendType")
 public enum PendType{
     WAITING(0), RETRY(1);
 

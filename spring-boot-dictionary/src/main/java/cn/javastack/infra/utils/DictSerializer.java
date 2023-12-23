@@ -1,6 +1,6 @@
 package cn.javastack.infra.utils;
 
-import cn.javastack.constants.Constant;
+import cn.javastack.constants.ConstantKV;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -16,7 +16,7 @@ public class DictSerializer extends StdSerializer implements ContextualSerialize
 
     /** 字典注解 */
 
-    private Constant dict;
+    private ConstantKV dict;
 
     public DictSerializer() {
 
@@ -24,7 +24,7 @@ public class DictSerializer extends StdSerializer implements ContextualSerialize
 
     }
 
-    public DictSerializer(Constant dict) {
+    public DictSerializer(ConstantKV dict) {
 
         super(Object.class);
 
@@ -66,7 +66,7 @@ public class DictSerializer extends StdSerializer implements ContextualSerialize
             return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);
         }
 
-        Constant dict = beanProperty.getAnnotation(Constant.class);
+        ConstantKV dict = beanProperty.getAnnotation(ConstantKV.class);
 
         if (Objects.nonNull(dict)){
             type = dict.value();
