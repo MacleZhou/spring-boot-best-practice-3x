@@ -2,7 +2,7 @@ package cn.javastack.data.loader.join.jimdemo.v4;
 
 import cn.javastack.data.loader.annotation.DataHolderConfig;
 import cn.javastack.data.loader.annotation.DataHolderType;
-import cn.javastack.data.loader.annotation.LoadDataToMemory;
+import cn.javastack.data.loader.annotation.DataLoaderInMemory;
 import cn.javastack.data.loader.join.jimdemo.vo.*;
 import lombok.Data;
 
@@ -17,21 +17,21 @@ import lombok.Data;
 public class OrderDetailVOV4 extends OrderDetailVO {
     private final OrderVO order;
 
-    @LoadDataToMemory(keyFromSourceData = "#{order.userId}",
+    @DataLoaderInMemory(keyFromSourceData = "#{order.userId}",
             keyFromJoinData = "#{id}",
             loader = "#{@userRepository.getByIds(#root)}",
             dataConverter = "#{T(cn.javastack.data.loader.join.jimdemo.vo.UserVO).apply(#root)}"
         )
     private UserVO user;
 
-    @LoadDataToMemory(keyFromSourceData = "#{order.addressId}",
+    @DataLoaderInMemory(keyFromSourceData = "#{order.addressId}",
             keyFromJoinData = "#{id}",
             loader = "#{@addressRepository.getByIds(#root)}",
             dataConverter = "#{T(cn.javastack.data.loader.join.jimdemo.vo.AddressVO).apply(#root)}"
     )
     private AddressVO address;
 
-    @LoadDataToMemory(keyFromSourceData = "#{order.productId}",
+    @DataLoaderInMemory(keyFromSourceData = "#{order.productId}",
             keyFromJoinData = "#{id}",
             loader = "#{@productRepository.getByIds(#root)}",
             dataConverter = "#{T(cn.javastack.data.loader.join.jimdemo.vo.ProductVO).apply(#root)}"

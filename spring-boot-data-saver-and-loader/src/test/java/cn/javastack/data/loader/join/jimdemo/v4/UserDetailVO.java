@@ -3,7 +3,7 @@ package cn.javastack.data.loader.join.jimdemo.v4;
 
 import cn.javastack.data.loader.annotation.DataHolderConfig;
 import cn.javastack.data.loader.annotation.DataHolderType;
-import cn.javastack.data.loader.annotation.LoadDataToMemory;
+import cn.javastack.data.loader.annotation.DataLoaderInMemory;
 import cn.javastack.data.loader.join.jimdemo.service.user.User;
 import cn.javastack.data.loader.join.jimdemo.vo.AddressVO;
 
@@ -16,7 +16,7 @@ import cn.javastack.data.loader.join.jimdemo.vo.AddressVO;
 public class UserDetailVO {
     private User user;
 
-    @LoadDataToMemory(keyFromSourceData = "#{user.addressId}",
+    @DataLoaderInMemory(keyFromSourceData = "#{user.addressId}",
             keyFromJoinData = "#{id}",
             loader = "#{@addressRepository.getByIds(#root)}",
             dataConverter = "#{T(cn.javastack.data.loader.join.jimdemo.vo.AddressVO).apply(#root)}"

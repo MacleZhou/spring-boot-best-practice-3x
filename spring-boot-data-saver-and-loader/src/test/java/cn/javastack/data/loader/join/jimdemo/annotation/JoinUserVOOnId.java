@@ -1,7 +1,7 @@
 package cn.javastack.data.loader.join.jimdemo.annotation;
 
 
-import cn.javastack.data.loader.annotation.LoadDataToMemory;
+import cn.javastack.data.loader.annotation.DataLoaderInMemory;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;
@@ -16,14 +16,14 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@LoadDataToMemory(keyFromSourceData = "",
+@DataLoaderInMemory(keyFromSourceData = "",
         keyFromJoinData = "#{id}",
         loader = "#{@userRepository.getByIds(#root)}",
         dataConverter = "#{T(cn.javastack.data.loader.join.jimdemo.vo.UserVO).apply(#root)}"
 )
 public @interface JoinUserVOOnId {
     @AliasFor(
-            annotation = LoadDataToMemory.class
+            annotation = DataLoaderInMemory.class
     )
     String keyFromSourceData();
 }

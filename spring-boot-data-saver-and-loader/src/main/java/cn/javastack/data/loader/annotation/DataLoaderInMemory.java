@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LoadDataToMemory {
+public @interface DataLoaderInMemory {
     /**
      * Spring Expression从 sourceData 中提取 key, 比如#{order.userId},及从order中的userId值去join User<br>
      * 表中的User对象
