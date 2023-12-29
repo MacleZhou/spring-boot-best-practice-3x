@@ -3,7 +3,7 @@ package cn.javastack.data.loader.core.support;
 
 import cn.javastack.data.loader.annotation.DataHolderConfig;
 import cn.javastack.data.loader.annotation.DataHolderType;
-import cn.javastack.data.loader.annotation.LoaderExecutorType;
+import cn.javastack.data.loader.annotation.ExecutorType;
 import cn.javastack.data.loader.core.DataItemExecutor;
 import cn.javastack.data.loader.core.DataItemExecutorFactory;
 import cn.javastack.data.loader.core.DataItemsExecutor;
@@ -98,7 +98,7 @@ public class DefaultDataItemsExecutorFactory implements DataItemsExecutorFactory
     //确定是否并行
     private <D> int calculateMaximalParallelTaskQuantity(DataHolderConfig joinInMemoryConfig, List<DataItemExecutor<D>> dataItemExecutors){
         //默认并行，如果指定要串行，则串行
-        if(null != joinInMemoryConfig && joinInMemoryConfig.executorType() == LoaderExecutorType.SERIAL){
+        if(null != joinInMemoryConfig && joinInMemoryConfig.executorType() == ExecutorType.SERIAL){
             return 1;
         }
         Map<Integer, Long> collect = dataItemExecutors.stream().collect(Collectors.groupingBy(DataItemExecutor::runOnLevel, Collectors.counting()));

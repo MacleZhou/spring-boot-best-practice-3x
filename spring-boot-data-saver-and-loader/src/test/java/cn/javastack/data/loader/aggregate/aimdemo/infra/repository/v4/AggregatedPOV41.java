@@ -3,7 +3,7 @@ package cn.javastack.data.loader.aggregate.aimdemo.infra.repository.v4;
 import cn.javastack.data.loader.aggregate.aimdemo.infra.repository.po.*;
 import cn.javastack.data.loader.annotation.DataHolderConfig;
 import cn.javastack.data.loader.annotation.DataLoaderInMemory;
-import cn.javastack.data.loader.annotation.LoaderExecutorType;
+import cn.javastack.data.loader.annotation.ExecutorType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Setter
 @Getter
-@DataHolderConfig(executorType = LoaderExecutorType.SERIAL)
+@DataHolderConfig(executorType = ExecutorType.SERIAL)
 public class AggregatedPOV41 extends AggregatedPO{
 
     @DataLoaderInMemory(keyFromSourceData = "#{productCode}",

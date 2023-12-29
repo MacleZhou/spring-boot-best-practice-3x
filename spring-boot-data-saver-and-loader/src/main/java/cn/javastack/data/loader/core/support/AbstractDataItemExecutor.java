@@ -67,52 +67,66 @@ abstract class AbstractDataItemExecutor<SOURCE_DATA, JOIN_KEY, JOIN_DATA, JOIN_R
 
     @Override
     public void execute(List<SOURCE_DATA> sourceDatas, DataHolderType dataHolderType) {
+        if(CollectionUtils.isEmpty(sourceDatas)){
+            return;
+        }
         if(dataHolderType.equals(DataHolderType.JOIN)) {
             join(sourceDatas);
         }
         else {
-            // 从源数据中提取 JoinKey
-            JOIN_KEY aggregateKey = this.createJoinKeyFromSourceData(sourceDatas.get(0));
-            if(null == aggregateKey){
-                log.warn("aggregateKey is null");
-                return;
-            }
-            log.debug("aggregateKey:" + JSON.toJSONString(aggregateKey));
+            aggregate(sourceDatas);
+        }
+    }
 
-            // 根据 AggregateKey 从数据库中获取 AggregateData
-            Object resultDataFromLoader = this.getJoinDataByJoinKey(aggregateKey);
-            if (null == resultDataFromLoader) {
-                log.warn("no aggregate item data found");
-                onNotFound(sourceDatas.get(0), aggregateKey);
-                return;
-            }
+    private void aggregate(List<SOURCE_DATA> sourceDatas) {
+        sourceDatas.forEach(sourceData -> {
+            aggregateSingleObject(sourceData);
+        });
 
-            log.debug("get join data {} by join key {}", resultDataFromLoader, aggregateKey);
-            if (List.class.isAssignableFrom(resultDataFromLoader.getClass())) {
-                List<JOIN_DATA> allOriginalItemDatas = (List<JOIN_DATA>) resultDataFromLoader;
-                List<JOIN_RESULT> covertedAggregateItems = new ArrayList<>();
-                // 将 AggregateData 以 Map 形式进行组织
-                Map<JOIN_KEY, List<JOIN_RESULT>> convertedGroupbyAggregatedItemsMap = new HashMap<>();
-                for (JOIN_DATA beforeItemData : allOriginalItemDatas) {
-                    JOIN_RESULT convertedItemResult = convertToResult(beforeItemData);
-                    covertedAggregateItems.add(convertedItemResult);
-                    JOIN_KEY groupbyKey = this.createJoinKeyFromJoinData(beforeItemData);
-                    if(groupbyKey != null){
-                        List<JOIN_RESULT> listJoinData = convertedGroupbyAggregatedItemsMap.getOrDefault(groupbyKey, Lists.newArrayList());
-                        listJoinData.add(convertedItemResult);
-                        convertedGroupbyAggregatedItemsMap.put(groupbyKey, listJoinData);
-                    }
+    }
+
+    private void aggregateSingleObject(SOURCE_DATA sourceData) {
+        // 从源数据中提取 JoinKey
+        JOIN_KEY aggregateKey = this.createJoinKeyFromSourceData(sourceData);
+        if(null == aggregateKey){
+            log.warn("aggregateKey is null");
+            return;
+        }
+        log.debug("aggregateKey:" + JSON.toJSONString(aggregateKey));
+
+        // 根据 AggregateKey 从数据库中获取 AggregateData
+        Object resultDataFromLoader = this.getJoinDataByJoinKey(aggregateKey);
+        if (null == resultDataFromLoader) {
+            log.warn("no aggregate item data found");
+            onNotFound(sourceData, aggregateKey);
+            return;
+        }
+
+        log.debug("get join data {} by join key {}", resultDataFromLoader, aggregateKey);
+        if (List.class.isAssignableFrom(resultDataFromLoader.getClass())) {
+            List<JOIN_DATA> allOriginalItemDatas = (List<JOIN_DATA>) resultDataFromLoader;
+            List<JOIN_RESULT> covertedAggregateItems = new ArrayList<>();
+            // 将 AggregateData 以 Map 形式进行组织
+            Map<JOIN_KEY, List<JOIN_RESULT>> convertedGroupbyAggregatedItemsMap = new HashMap<>();
+            for (JOIN_DATA beforeItemData : allOriginalItemDatas) {
+                JOIN_RESULT convertedItemResult = convertToResult(beforeItemData);
+                covertedAggregateItems.add(convertedItemResult);
+                JOIN_KEY groupbyKey = this.createJoinKeyFromJoinData(beforeItemData);
+                if(groupbyKey != null){
+                    List<JOIN_RESULT> listJoinData = convertedGroupbyAggregatedItemsMap.getOrDefault(groupbyKey, Lists.newArrayList());
+                    listJoinData.add(convertedItemResult);
+                    convertedGroupbyAggregatedItemsMap.put(groupbyKey, listJoinData);
                 }
-                if(convertedGroupbyAggregatedItemsMap.size()>0){
-                    onFound(sourceDatas.get(0), convertedGroupbyAggregatedItemsMap);
-                }
-                else {
-                    onFound(sourceDatas.get(0), covertedAggregateItems);
-                }
-            } else {
-                JOIN_RESULT itemResult = convertToResult((JOIN_DATA) resultDataFromLoader);
-                onFound(sourceDatas.get(0), itemResult);
             }
+            if(convertedGroupbyAggregatedItemsMap.size()>0){
+                onFound(sourceData, convertedGroupbyAggregatedItemsMap);
+            }
+            else {
+                onFound(sourceData, covertedAggregateItems);
+            }
+        } else {
+            JOIN_RESULT itemResult = convertToResult((JOIN_DATA) resultDataFromLoader);
+            onFound(sourceData, itemResult);
         }
     }
 

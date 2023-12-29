@@ -3,7 +3,7 @@ package cn.javastack.data.loader.join.jimdemo.v4;
 import cn.javastack.data.loader.annotation.DataHolderConfig;
 import cn.javastack.data.loader.annotation.DataHolderType;
 import cn.javastack.data.loader.annotation.DataLoaderInMemory;
-import cn.javastack.data.loader.annotation.LoaderExecutorType;
+import cn.javastack.data.loader.annotation.ExecutorType;
 import cn.javastack.data.loader.join.jimdemo.vo.*;
 import lombok.Data;
 
@@ -14,7 +14,7 @@ import lombok.Data;
  * 编程就像玩 Lego
  */
 @Data
-@DataHolderConfig(dataHolderType = DataHolderType.JOIN, executorType = LoaderExecutorType.SERIAL)
+@DataHolderConfig(dataHolderType = DataHolderType.JOIN, executorType = ExecutorType.SERIAL)
 public class OrderDetailVOV41 extends OrderDetailVO {
     private final OrderVO order;
 
