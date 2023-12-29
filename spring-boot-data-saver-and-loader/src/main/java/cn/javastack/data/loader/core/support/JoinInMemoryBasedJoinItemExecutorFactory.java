@@ -1,7 +1,7 @@
 package cn.javastack.data.loader.core.support;
 
 import cn.javastack.data.loader.annotation.DataHolderType;
-import cn.javastack.data.loader.annotation.LoadDataToField;
+import cn.javastack.data.loader.annotation.LoadDataToMemory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.expression.BeanResolver;
@@ -22,26 +22,26 @@ import java.util.function.Function;
  * 根据Annotation，生成各接口
  */
 @Slf4j
-public class JoinInMemoryBasedJoinItemExecutorFactory extends AbstractAnnotationBasedJoinItemExecutorFactory<LoadDataToField> {
+public class JoinInMemoryBasedJoinItemExecutorFactory extends AbstractAnnotationBasedJoinItemExecutorFactory<LoadDataToMemory> {
     private final ExpressionParser parser = new SpelExpressionParser();
     private final TemplateParserContext templateParserContext = new TemplateParserContext();
     private final BeanResolver beanResolver;
 
     public JoinInMemoryBasedJoinItemExecutorFactory(BeanResolver beanResolver) {
-        super(LoadDataToField.class);
+        super(LoadDataToMemory.class);
         this.beanResolver = beanResolver;
     }
 
 
     @Override
-    protected <DATA> BiConsumer<Object, Object> createFoundFunction(Class<DATA> cls, Field field, LoadDataToField ann, DataHolderType dataHolderType) {
+    protected <DATA> BiConsumer<Object, Object> createFoundFunction(Class<DATA> cls, Field field, LoadDataToMemory ann, DataHolderType dataHolderType) {
         log.info("write field is {} for class {}", field.getName(), cls);
         boolean isCollection = Collection.class.isAssignableFrom(field.getType());
         return new DataSetter(field.getName(), isCollection, dataHolderType);
     }
 
     @Override
-    protected <DATA> Function<Object, Object> createDataConverter(Class<DATA> cls, Field field, LoadDataToField ann) {
+    protected <DATA> Function<Object, Object> createDataConverter(Class<DATA> cls, Field field, LoadDataToMemory ann) {
         if (StringUtils.isEmpty(ann.dataConverter())){
             log.info("No Data Convert for class {}, field {}", cls, field.getName());
             return Function.identity();
@@ -52,28 +52,28 @@ public class JoinInMemoryBasedJoinItemExecutorFactory extends AbstractAnnotation
     }
 
     @Override
-    protected <DATA> Function<Object, Object> createKeyGeneratorFromJoinData(Class<DATA> cls, Field field, LoadDataToField ann) {
+    protected <DATA> Function<Object, Object> createKeyGeneratorFromJoinData(Class<DATA> cls, Field field, LoadDataToMemory ann) {
         log.info("Key from join data is {} for class {}, field {}",
                 ann.keyFromJoinData(), cls, field.getName());
         return new DataGetter(ann.keyFromJoinData());
     }
 
     @Override
-    protected <DATA> Function<Object, Object> createDataLoader(Class<DATA> cls, Field field, LoadDataToField ann) {
+    protected <DATA> Function<Object, Object> createDataLoader(Class<DATA> cls, Field field, LoadDataToMemory ann) {
         log.info("data loader is {} for class {}, field {}",
                 ann.loader(), cls, field.getName());
         return new DataGetter(ann.loader());
     }
 
     @Override
-    protected <DATA> Function<Object, Object> createKeyGeneratorFromData(Class<DATA> cls, Field field, LoadDataToField ann) {
+    protected <DATA> Function<Object, Object> createKeyGeneratorFromData(Class<DATA> cls, Field field, LoadDataToMemory ann) {
         log.info("Key from source data is {} for class {}, field {}",
                 ann.keyFromJoinData(), cls, field.getName());
         return new DataGetter(ann.keyFromSourceData());
     }
 
     @Override
-    protected <DATA> int createRunLevel(Class<DATA> cls, Field field, LoadDataToField ann) {
+    protected <DATA> int createRunLevel(Class<DATA> cls, Field field, LoadDataToMemory ann) {
         log.info("run level is {} for class {}, field {}",
                 ann.runLevel(), cls, field.getName());
         return ann.runLevel();
