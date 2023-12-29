@@ -7,7 +7,6 @@ import cn.javastack.data.loader.core.support.DefaultDataItemsExecutorFactory;
 import cn.javastack.data.loader.core.support.DefaultDataLoaderInMemoryService;
 import cn.javastack.data.loader.core.support.LoaderInMemoryBasedDataItemExecutorFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +16,6 @@ import org.springframework.context.expression.BeanFactoryResolver;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 配置Join & Aggregate到Spring容器中
@@ -45,19 +41,4 @@ public class DataLoaderInMemoryAutoConfiguration {
     public LoaderInMemoryBasedDataItemExecutorFactory joinInMemoryBasedJoinItemExecutorFactory(ApplicationContext applicationContext){
         return new LoaderInMemoryBasedDataItemExecutorFactory(new BeanFactoryResolver(applicationContext));
     }
-
-    @Bean
-    public ExecutorService defaultExecutor(){
-        BasicThreadFactory basicThreadFactory = new BasicThreadFactory.Builder()
-                .namingPattern("JoinAndAggregateInMemory-Thread-%d")
-                .daemon(true)
-                .build();
-        int maxSize = Runtime.getRuntime().availableProcessors() * 3;
-        return new ThreadPoolExecutor(0, maxSize,
-                600L, TimeUnit.SECONDS,
-                new SynchronousQueue<>(),
-                basicThreadFactory,
-                new ThreadPoolExecutor.CallerRunsPolicy());
-    }
-
 }

@@ -1,4 +1,4 @@
-package cn.javastack.data.loader.aggregate.aimdemo.infra.repository.dvo;
+package cn.javastack.data.loader.aggregate.aimdemo.infra.repository.po;
 
 import cn.javastack.data.loader.aggregate.aimdemo.infra.repository.dao.entity.MedicalProductCoshare;
 import lombok.Getter;

@@ -6,6 +6,8 @@ import cn.javastack.data.loader.join.jimdemo.v3.OrderDetailServiceV3;
 import cn.javastack.data.loader.join.jimdemo.v341.OrderDetailServiceFetcherV1;
 import cn.javastack.data.loader.join.jimdemo.v342.OrderDetailServiceFetcherV2;
 import cn.javastack.data.loader.join.jimdemo.v4.OrderDetailServiceV4;
+import cn.javastack.data.loader.join.jimdemo.v4.OrderDetailServiceV41;
+import cn.javastack.data.loader.join.jimdemo.v4.OrderDetailServiceV42;
 import cn.javastack.data.loader.join.jimdemo.v5.OrderDetailServiceV5;
 import cn.javastack.data.loader.join.jimdemo.v6.OrderDetailServiceV6;
 import cn.javastack.data.loader.join.jimdemo.vo.OrderDetailVO;
@@ -36,6 +38,12 @@ public class OrderDetailServiceTest {
 
     @Resource
     private OrderDetailServiceV4 orderDetailServiceV4;
+
+    @Resource
+    private OrderDetailServiceV41 orderDetailServiceV41;
+
+    @Resource
+    private OrderDetailServiceV42 orderDetailServiceV42;
 
     @Resource
     private OrderDetailServiceV5 orderDetailServiceV5;
@@ -79,8 +87,23 @@ public class OrderDetailServiceTest {
     }
 
     @Test
-    public void getByUserIdV4_DataLoaderIoMemory(){
+    public void getByUserIdV4_DataLoaderIoMemory_default_parallel(){
         List<? extends OrderDetailVO> orderDetailVOV1List = orderDetailServiceV4.getByUserId(1l);
+        log.info(JSON.toJSONString(orderDetailVOV1List));
+    }
+
+    @Test
+    public void getByUserIdV41_DataLoaderIoMemory_manual_serial(){
+        List<? extends OrderDetailVO> orderDetailVOV1List = orderDetailServiceV41.getByUserId(1l);
+        log.info(JSON.toJSONString(orderDetailVOV1List));
+    }
+
+    /**
+     * 这个测试的目的是不用框架默认的ExecutorService,而用自己指定的ExecutorService。依赖配置DataLoaderTestConfig.class中配置的并发执行器
+     * */
+    @Test
+    public void getByUserIdV42_DataLoaderIoMemory_manual_serial(){
+        List<? extends OrderDetailVO> orderDetailVOV1List = orderDetailServiceV42.getByUserId(1l);
         log.info(JSON.toJSONString(orderDetailVOV1List));
     }
 

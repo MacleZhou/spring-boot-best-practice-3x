@@ -98,6 +98,40 @@
     }
   },
   "companyCode": "016",
+  "limitCategories": {
+    "LL": {
+      "ageFrom": 16,
+      "ageTo": 65,
+      "ageUnit": "YEAR",
+      "code": "LL",
+      "companyCode": "016",
+      "shortName": "Lifetime Limit"
+    },
+    "VL": {
+      "ageFrom": 16,
+      "ageTo": 65,
+      "ageUnit": "YEAR",
+      "code": "VL",
+      "companyCode": "016",
+      "shortName": "Visit Limit"
+    },
+    "DL": {
+      "ageFrom": 16,
+      "ageTo": 65,
+      "ageUnit": "YEAR",
+      "code": "DL",
+      "companyCode": "016",
+      "shortName": "Disability Limit"
+    },
+    "AL": {
+      "ageFrom": 16,
+      "ageTo": 65,
+      "ageUnit": "YEAR",
+      "code": "AL",
+      "companyCode": "016",
+      "shortName": "Annual Limit"
+    }
+  },
   "product": {
     "code": "H1N100N6",
     "companyCode": "016",

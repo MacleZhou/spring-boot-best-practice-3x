@@ -1,6 +1,6 @@
-package cn.javastack.data.loader.aggregate.aimdemo.infra.repository.v1.dvo;
+package cn.javastack.data.loader.aggregate.aimdemo.infra.repository.v1;
 
-import cn.javastack.data.loader.aggregate.aimdemo.infra.repository.dvo.*;
+import cn.javastack.data.loader.aggregate.aimdemo.infra.repository.po.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,11 +9,7 @@ import java.util.Map;
 
 @Setter
 @Getter
-public class AggregatedDVO {
-
-    private final String companyCode;
-
-    private final String productCode;
+public class AggregatedPOV1 extends AggregatedPO{
 
 
     private ProductDVO product;
@@ -32,8 +28,7 @@ public class AggregatedDVO {
 
     private Map<String, List<ProductBenefitLimitDVO>> benefitLimits;
 
-    public AggregatedDVO(String companyCode, String productCode){
-        this.companyCode = companyCode;
-        this.productCode = productCode;
+    public AggregatedPOV1(String companyCode, String productCode){
+        super(companyCode, productCode);
     }
 }

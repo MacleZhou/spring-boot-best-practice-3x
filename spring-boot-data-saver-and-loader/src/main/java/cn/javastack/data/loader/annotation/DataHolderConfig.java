@@ -11,8 +11,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DataHolderConfig {
-    LoaderExecutorType executorType() default LoaderExecutorType.SERIAL;
-    String executorName() default "defaultExecutor";
+    LoaderExecutorType executorType() default LoaderExecutorType.PARALLEL;
+
+    String executorName() default "";
 
     DataHolderType dataHolderType() default DataHolderType.AGGREGATE;
 }
