@@ -1,8 +1,8 @@
 package cn.javastack.jaimini.jim.core.support;
 
 
-import cn.javastack.jaimini.jim.core.JoinItemExecutor;
-import cn.javastack.jaimini.jim.core.JoinItemsExecutor;
+import cn.javastack.data.loader.core.JoinItemExecutor;
+import cn.javastack.data.loader.core.JoinItemsExecutor;
 import com.google.common.base.Preconditions;
 import lombok.AccessLevel;
 import lombok.Getter;

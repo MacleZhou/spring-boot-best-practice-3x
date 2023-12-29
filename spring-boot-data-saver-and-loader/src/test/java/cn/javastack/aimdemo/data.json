@@ -1,0 +1,284 @@
+{
+  "benefitLimits": {
+    "H01": [
+      {
+        "amount": 20000,
+        "benefitCode": "H01",
+        "category": "LL",
+        "companyCode": "016",
+        "productCodee": "H1N100N6",
+        "role": "I",
+        "valueType": "1"
+      },
+      {
+        "amount": 2000,
+        "benefitCode": "H01",
+        "category": "DL",
+        "companyCode": "016",
+        "productCodee": "H1N100N6",
+        "role": "I",
+        "valueType": "1"
+      }
+    ],
+    "H03": [
+      {
+        "amount": 30000,
+        "benefitCode": "H03",
+        "category": "AL",
+        "companyCode": "016",
+        "productCodee": "H1N100N6",
+        "role": "I",
+        "valueType": "1"
+      },
+      {
+        "amount": 3000,
+        "benefitCode": "H03",
+        "category": "DL",
+        "companyCode": "016",
+        "productCodee": "H1N100N6",
+        "role": "I",
+        "valueType": "1"
+      },
+      {
+        "amount": 300,
+        "benefitCode": "H03",
+        "category": "VL",
+        "companyCode": "016",
+        "productCodee": "H1N100N6",
+        "role": "I",
+        "valueType": "1"
+      }
+    ]
+  },
+  "benefits": {
+    "H09": {
+      "code": "H09",
+      "companyCode": "016",
+      "name": "SN-H09"
+    },
+    "H08": {
+      "code": "H08",
+      "companyCode": "016",
+      "name": "SN-H08"
+    },
+    "H01": {
+      "code": "H01",
+      "companyCode": "016",
+      "name": "SN-H01"
+    },
+    "H03": {
+      "code": "H03",
+      "companyCode": "016",
+      "name": "SN-H03"
+    },
+    "H02": {
+      "code": "H02",
+      "companyCode": "016",
+      "name": "SN-H02"
+    },
+    "H05": {
+      "code": "H05",
+      "companyCode": "016",
+      "name": "SN-H05"
+    },
+    "H04": {
+      "code": "H04",
+      "companyCode": "016",
+      "name": "SN-H04"
+    },
+    "H07": {
+      "code": "H07",
+      "companyCode": "016",
+      "name": "SN-H07"
+    },
+    "H06": {
+      "code": "H06",
+      "companyCode": "016",
+      "name": "SN-H06"
+    }
+  },
+  "companyCode": "016",
+  "limitCategories": {
+    "LL": {
+      "ageFrom": 16,
+      "ageTo": 65,
+      "ageUnit": "YEAR",
+      "code": "LL",
+      "companyCode": "016",
+      "shortName": "Lifetime Limit"
+    },
+    "VL": {
+      "ageFrom": 16,
+      "ageTo": 65,
+      "ageUnit": "YEAR",
+      "code": "VL",
+      "companyCode": "016",
+      "shortName": "Visit Limit"
+    },
+    "DL": {
+      "ageFrom": 16,
+      "ageTo": 65,
+      "ageUnit": "YEAR",
+      "code": "DL",
+      "companyCode": "016",
+      "shortName": "Disability Limit"
+    },
+    "AL": {
+      "ageFrom": 16,
+      "ageTo": 65,
+      "ageUnit": "YEAR",
+      "code": "AL",
+      "companyCode": "016",
+      "shortName": "Annual Limit"
+    }
+  },
+  "product": {
+    "code": "H1N100N6",
+    "companyCode": "016",
+    "name": "UHXYN7 EXCELCARE UL"
+  },
+  "productBenefits": [
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H01",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    },
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H02",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    },
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H03",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    },
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H04",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    },
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H05",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    },
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H06",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    },
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H07",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    },
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H08",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    },
+    {
+      "availableAnnualLimit": false,
+      "availableDisabilityLimit": false,
+      "availableLifetimeLimit": false,
+      "code": "H09",
+      "companyCode": "016",
+      "productCode": "H1N100N6"
+    }
+  ],
+  "productCode": "H1N100N6",
+  "productCoshares": [
+    {
+      "amount": 1000,
+      "category": "LL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    },
+    {
+      "amount": 100,
+      "category": "AL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    },
+    {
+      "amount": 10,
+      "category": "DL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    }
+  ],
+  "productDeducts": [
+    {
+      "amount": 10000,
+      "category": "LL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    },
+    {
+      "amount": 1000,
+      "category": "AL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    },
+    {
+      "amount": 100,
+      "category": "DL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    }
+  ],
+  "productLimits": [
+    {
+      "amount": 200000,
+      "category": "LL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    },
+    {
+      "amount": 20000,
+      "category": "AL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    },
+    {
+      "amount": 2000,
+      "category": "DL",
+      "companyCode": "016",
+      "productCode": "H1N100N6",
+      "role": "I"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 package cn.javastack.jaimini.jim.core.support;
 
-import cn.javastack.jaimini.jim.core.JoinItemExecutor;
+import cn.javastack.data.loader.core.JoinItemExecutor;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 

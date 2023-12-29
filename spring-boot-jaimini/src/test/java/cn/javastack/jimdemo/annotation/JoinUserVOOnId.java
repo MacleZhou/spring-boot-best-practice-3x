@@ -1,7 +1,7 @@
 package cn.javastack.jimdemo.annotation;
 
 
-import cn.javastack.jaimini.jim.annotation.JoinInMemory;
+import cn.javastack.data.loader.annotation.JoinInMemory;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;

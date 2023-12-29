@@ -1,12 +1,12 @@
 package cn.javastack.jaimini.jim.core.support;
 
 
-import cn.javastack.jaimini.jim.annotation.JoinInMemeoryExecutorType;
-import cn.javastack.jaimini.jim.annotation.JoinInMemoryConfig;
-import cn.javastack.jaimini.jim.core.JoinItemExecutor;
-import cn.javastack.jaimini.jim.core.JoinItemExecutorFactory;
-import cn.javastack.jaimini.jim.core.JoinItemsExecutor;
-import cn.javastack.jaimini.jim.core.JoinItemsExecutorFactory;
+import cn.javastack.data.loader.annotation.JoinInMemeoryExecutorType;
+import cn.javastack.data.loader.annotation.JoinInMemoryConfig;
+import cn.javastack.data.loader.core.JoinItemExecutor;
+import cn.javastack.data.loader.core.JoinItemExecutorFactory;
+import cn.javastack.data.loader.core.JoinItemsExecutor;
+import cn.javastack.data.loader.core.JoinItemsExecutorFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;

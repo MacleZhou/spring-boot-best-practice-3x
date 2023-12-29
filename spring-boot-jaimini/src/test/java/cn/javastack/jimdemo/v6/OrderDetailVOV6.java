@@ -1,8 +1,8 @@
 package cn.javastack.jimdemo.v6;
 
 
-import cn.javastack.jaimini.jim.annotation.JoinInMemeoryExecutorType;
-import cn.javastack.jaimini.jim.annotation.JoinInMemoryConfig;
+import cn.javastack.data.loader.annotation.JoinInMemeoryExecutorType;
+import cn.javastack.data.loader.annotation.JoinInMemoryConfig;
 import cn.javastack.jimdemo.annotation.JoinAddressVOOnId;
 import cn.javastack.jimdemo.annotation.JoinProductVOOnId;
 import cn.javastack.jimdemo.annotation.JoinUserVOOnId;

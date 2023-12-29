@@ -1,9 +1,9 @@
 package cn.javastack.jaimini.jim.core.support;
 
 
-import cn.javastack.jaimini.jim.core.JoinItemsExecutor;
-import cn.javastack.jaimini.jim.core.JoinItemsExecutorFactory;
-import cn.javastack.jaimini.jim.core.JoinService;
+import cn.javastack.data.loader.core.JoinItemsExecutor;
+import cn.javastack.data.loader.core.JoinItemsExecutorFactory;
+import cn.javastack.data.loader.core.JoinService;
 import com.google.common.collect.Maps;
 
 import java.util.List;

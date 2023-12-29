@@ -1,6 +1,6 @@
 package cn.javastack.jaimini.jim.core.support;
 
-import cn.javastack.jaimini.jim.annotation.JoinInMemory;
+import cn.javastack.data.loader.annotation.JoinInMemory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.expression.BeanResolver;

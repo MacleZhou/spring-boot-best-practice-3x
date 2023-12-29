@@ -1,8 +1,8 @@
 package cn.javastack.jaimini.jim.core.support;
 
 
-import cn.javastack.jaimini.jim.core.JoinItemExecutor;
-import cn.javastack.jaimini.jim.core.JoinItemExecutorFactory;
+import cn.javastack.data.loader.core.JoinItemExecutor;
+import cn.javastack.data.loader.core.JoinItemExecutorFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 

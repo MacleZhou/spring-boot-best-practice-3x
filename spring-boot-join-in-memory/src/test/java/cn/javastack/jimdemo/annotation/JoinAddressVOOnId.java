@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @JoinInMemory(keyFromSourceData = "",
         keyFromJoinData = "#{id}",
         loader = "#{@addressRepository.getByIds(#root)}",
-        joinDataConverter = "#{T(cn.javastack.joininmemory.demo.AddressVO).apply(#root)}"
+        joinDataConverter = "#{T(cn.javastack.jimdemo.vo.AddressVO).apply(#root)}"
 )
 public @interface JoinAddressVOOnId {
     @AliasFor(

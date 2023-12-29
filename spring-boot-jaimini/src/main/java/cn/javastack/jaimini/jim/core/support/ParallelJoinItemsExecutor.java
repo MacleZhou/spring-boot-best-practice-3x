@@ -1,6 +1,6 @@
 package cn.javastack.jaimini.jim.core.support;
 
-import cn.javastack.jaimini.jim.core.JoinItemExecutor;
+import cn.javastack.data.loader.core.JoinItemExecutor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;

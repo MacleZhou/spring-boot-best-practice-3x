@@ -1,7 +1,7 @@
 package cn.javastack.jimdemo.v4;
 
 
-import cn.javastack.jaimini.jim.annotation.JoinInMemory;
+import cn.javastack.data.loader.annotation.JoinInMemory;
 import cn.javastack.jimdemo.service.user.User;
 import cn.javastack.jimdemo.vo.AddressVO;
 
