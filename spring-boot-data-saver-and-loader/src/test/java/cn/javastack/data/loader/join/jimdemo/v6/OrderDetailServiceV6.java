@@ -1,7 +1,7 @@
 package cn.javastack.data.loader.join.jimdemo.v6;
 
 
-import cn.javastack.data.loader.core.JoinService;
+import cn.javastack.data.loader.core.DataLoaderInMemoryService;
 import cn.javastack.data.loader.join.jimdemo.service.OrderDetailService;
 import cn.javastack.data.loader.join.jimdemo.service.order.Order;
 import cn.javastack.data.loader.join.jimdemo.service.order.OrderRepository;
@@ -24,7 +24,7 @@ public class OrderDetailServiceV6 implements OrderDetailService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    private JoinService joinService;
+    private DataLoaderInMemoryService dataLoaderInMemoryService;
 
     @Override
     public List<? extends OrderDetailVO> getByUserId(Long userId) {
@@ -34,7 +34,7 @@ public class OrderDetailServiceV6 implements OrderDetailService {
                 .map(order -> new OrderDetailVOV6(OrderVO.apply(order)))
                 .collect(toList());
 
-        this.joinService.joinInMemory(OrderDetailVOV6.class, orderDetailVOS);
+        this.dataLoaderInMemoryService.loaderInMemory(OrderDetailVOV6.class, orderDetailVOS);
         return orderDetailVOS;
     }
 }

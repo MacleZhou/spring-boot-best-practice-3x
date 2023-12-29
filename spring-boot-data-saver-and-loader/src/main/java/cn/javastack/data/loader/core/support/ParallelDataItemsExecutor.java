@@ -1,7 +1,7 @@
 package cn.javastack.data.loader.core.support;
 
 import cn.javastack.data.loader.annotation.DataHolderType;
-import cn.javastack.data.loader.core.JoinItemExecutor;
+import cn.javastack.data.loader.core.DataItemExecutor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
@@ -19,20 +19,20 @@ import java.util.stream.Collectors;
  * 并行执行器，同一 level 的 join 在线程中并行执行
  */
 @Slf4j
-public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<DATA> {
+public class ParallelDataItemsExecutor<DATA> extends AbstractDataItemsExecutor<DATA> {
     private final ExecutorService executor;
     private final List<JoinExecutorWithLevel> joinExecutorWithLevels;
-    public ParallelJoinItemsExecutor(Class<DATA> dataCls,
+    public ParallelDataItemsExecutor(Class<DATA> dataCls,
                                      DataHolderType dataHolderType,
-                                     List<JoinItemExecutor<DATA>> joinItemExecutors,
+                                     List<DataItemExecutor<DATA>> dataItemExecutors,
                                      ExecutorService executor) {
-        super(dataCls, dataHolderType, joinItemExecutors);
+        super(dataCls, dataHolderType, dataItemExecutors);
         this.executor = executor;
         this.joinExecutorWithLevels = buildJoinExecutorWithLevel();
     }
 
     private List<JoinExecutorWithLevel> buildJoinExecutorWithLevel() {
-        List<JoinExecutorWithLevel> collect = getJoinItemExecutors().stream()
+        List<JoinExecutorWithLevel> collect = getDataItemExecutors().stream()
                 .collect(Collectors.groupingBy(joinExecutor -> joinExecutor.runOnLevel()))
                 .entrySet().stream()
                 .map(entry -> new JoinExecutorWithLevel(entry.getKey(), entry.getValue()))
@@ -45,7 +45,7 @@ public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<D
     @Override
     public void execute(List<DATA> datas) {
         this.joinExecutorWithLevels.forEach(joinExecutorWithLevel -> {
-            log.debug("run join on level {} use {}", joinExecutorWithLevel.getLevel(), joinExecutorWithLevel.getJoinItemExecutors());
+            log.debug("run join on level {} use {}", joinExecutorWithLevel.getLevel(), joinExecutorWithLevel.getDataItemExecutors());
 
             List<Task> tasks = buildTasks(joinExecutorWithLevel, datas, super.getDataHolderType());
             try {
@@ -64,20 +64,20 @@ public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<D
     }
 
     private List<Task> buildTasks(JoinExecutorWithLevel joinExecutorWithLevel, List<DATA> datas, DataHolderType dataHolderType) {
-        return joinExecutorWithLevel.getJoinItemExecutors().stream()
+        return joinExecutorWithLevel.getDataItemExecutors().stream()
                 .map(joinExecutor -> new Task(joinExecutor, datas, dataHolderType))
                 .collect(Collectors.toList());
     }
 
     @Value
     class Task implements Callable<Void> {
-        private final JoinItemExecutor<DATA> joinItemExecutor;
+        private final DataItemExecutor<DATA> dataItemExecutor;
         private final List<DATA> datas;
         private final DataHolderType dataHolderType;
 
         @Override
         public Void call() throws Exception {
-            this.joinItemExecutor.execute(this.datas, dataHolderType);
+            this.dataItemExecutor.execute(this.datas, dataHolderType);
             return null;
         }
     }
@@ -85,6 +85,6 @@ public class ParallelJoinItemsExecutor<DATA> extends AbstractJoinItemsExecutor<D
     @Value
     class JoinExecutorWithLevel{
         private final Integer level;
-        private final List<JoinItemExecutor<DATA>> joinItemExecutors;
+        private final List<DataItemExecutor<DATA>> dataItemExecutors;
     }
 }

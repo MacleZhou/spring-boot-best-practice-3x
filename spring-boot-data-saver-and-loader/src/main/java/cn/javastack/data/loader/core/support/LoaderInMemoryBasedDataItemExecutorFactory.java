@@ -22,12 +22,12 @@ import java.util.function.Function;
  * 根据Annotation，生成各接口
  */
 @Slf4j
-public class JoinInMemoryBasedJoinItemExecutorFactory extends AbstractAnnotationBasedJoinItemExecutorFactory<DataLoaderInMemory> {
+public class LoaderInMemoryBasedDataItemExecutorFactory extends AbstractAnnotationBasedDataItemExecutorFactory<DataLoaderInMemory> {
     private final ExpressionParser parser = new SpelExpressionParser();
     private final TemplateParserContext templateParserContext = new TemplateParserContext();
     private final BeanResolver beanResolver;
 
-    public JoinInMemoryBasedJoinItemExecutorFactory(BeanResolver beanResolver) {
+    public LoaderInMemoryBasedDataItemExecutorFactory(BeanResolver beanResolver) {
         super(DataLoaderInMemory.class);
         this.beanResolver = beanResolver;
     }

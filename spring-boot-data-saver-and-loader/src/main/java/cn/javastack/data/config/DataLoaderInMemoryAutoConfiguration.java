@@ -1,11 +1,11 @@
 package cn.javastack.data.config;
 
-import cn.javastack.data.loader.core.JoinItemExecutorFactory;
-import cn.javastack.data.loader.core.JoinItemsExecutorFactory;
-import cn.javastack.data.loader.core.JoinService;
-import cn.javastack.data.loader.core.support.DefaultJoinItemsExecutorFactory;
-import cn.javastack.data.loader.core.support.DefaultJoinService;
-import cn.javastack.data.loader.core.support.JoinInMemoryBasedJoinItemExecutorFactory;
+import cn.javastack.data.loader.core.DataItemExecutorFactory;
+import cn.javastack.data.loader.core.DataItemsExecutorFactory;
+import cn.javastack.data.loader.core.DataLoaderInMemoryService;
+import cn.javastack.data.loader.core.support.DefaultDataItemsExecutorFactory;
+import cn.javastack.data.loader.core.support.DefaultDataLoaderInMemoryService;
+import cn.javastack.data.loader.core.support.LoaderInMemoryBasedDataItemExecutorFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -26,24 +26,24 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @Slf4j
-public class DataLoaderToMemoryAutoConfiguration {
+public class DataLoaderInMemoryAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public JoinItemsExecutorFactory joinItemsExecutorFactory(Collection<? extends JoinItemExecutorFactory> joinItemExecutorFactories,
+    public DataItemsExecutorFactory joinItemsExecutorFactory(Collection<? extends DataItemExecutorFactory> joinItemExecutorFactories,
                                                              Map<String, ExecutorService> executorServiceMap){
-        return new DefaultJoinItemsExecutorFactory(joinItemExecutorFactories, executorServiceMap);
+        return new DefaultDataItemsExecutorFactory(joinItemExecutorFactories, executorServiceMap);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public JoinService joinService(JoinItemsExecutorFactory joinItemsExecutorFactory){
-        return new DefaultJoinService(joinItemsExecutorFactory);
+    public DataLoaderInMemoryService joinService(DataItemsExecutorFactory dataItemsExecutorFactory){
+        return new DefaultDataLoaderInMemoryService(dataItemsExecutorFactory);
     }
 
     @Bean
-    public JoinInMemoryBasedJoinItemExecutorFactory joinInMemoryBasedJoinItemExecutorFactory(ApplicationContext applicationContext){
-        return new JoinInMemoryBasedJoinItemExecutorFactory(new BeanFactoryResolver(applicationContext));
+    public LoaderInMemoryBasedDataItemExecutorFactory joinInMemoryBasedJoinItemExecutorFactory(ApplicationContext applicationContext){
+        return new LoaderInMemoryBasedDataItemExecutorFactory(new BeanFactoryResolver(applicationContext));
     }
 
     @Bean

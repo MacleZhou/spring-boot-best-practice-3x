@@ -2,8 +2,8 @@ package cn.javastack.data.loader.core.support;
 
 
 import cn.javastack.data.loader.annotation.DataHolderType;
-import cn.javastack.data.loader.core.JoinItemExecutor;
-import cn.javastack.data.loader.core.JoinItemExecutorFactory;
+import cn.javastack.data.loader.core.DataItemExecutor;
+import cn.javastack.data.loader.core.DataItemExecutorFactory;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
@@ -19,16 +19,16 @@ import static java.util.stream.Collectors.toList;
 /**
  * 根据类创建类的所有执行器
  */
-abstract class AbstractAnnotationBasedJoinItemExecutorFactory<A extends Annotation>
-    implements JoinItemExecutorFactory {
+abstract class AbstractAnnotationBasedDataItemExecutorFactory<A extends Annotation>
+    implements DataItemExecutorFactory {
     private final Class<A> annotationCls;
 
-    protected AbstractAnnotationBasedJoinItemExecutorFactory(Class<A> annotationCls) {
+    protected AbstractAnnotationBasedDataItemExecutorFactory(Class<A> annotationCls) {
         this.annotationCls = annotationCls;
     }
 
     @Override
-    public <DATA> List<JoinItemExecutor<DATA>> createForType(Class<DATA> cls, DataHolderType dataHolderType) {
+    public <DATA> List<DataItemExecutor<DATA>> createForType(Class<DATA> cls, DataHolderType dataHolderType) {
         // 从 字段 上获取 注解，并将其转换为 JoinItemExecutor
         List<Field> fieldsListWithAnnotation = FieldUtils.getAllFieldsList(cls);
 
@@ -39,11 +39,11 @@ abstract class AbstractAnnotationBasedJoinItemExecutorFactory<A extends Annotati
                 .collect(toList());
     }
 
-    private <DATA> JoinItemExecutor<DATA> createForField(Class<DATA> cls, Field field, A loadDataToField, DataHolderType dataHolderType) {
+    private <DATA> DataItemExecutor<DATA> createForField(Class<DATA> cls, Field field, A loadDataToField, DataHolderType dataHolderType) {
         if (loadDataToField == null){
             return null;
         }
-        JoinItemExecutorAdapter adapter = JoinItemExecutorAdapter.builder()
+        DataItemExecutorAdapter adapter = DataItemExecutorAdapter.builder()
                 .name(createName(cls, field, loadDataToField))
                 .runLevel(createRunLevel(cls, field, loadDataToField))
                 .keyFromSourceData(createKeyGeneratorFromData(cls, field, loadDataToField))

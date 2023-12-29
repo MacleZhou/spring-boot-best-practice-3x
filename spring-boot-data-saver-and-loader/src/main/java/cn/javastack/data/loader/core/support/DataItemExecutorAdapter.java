@@ -14,8 +14,8 @@ import java.util.function.Function;
 @Slf4j
 @Builder
 @Getter
-public class JoinItemExecutorAdapter<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESULT>
-        extends AbstractJoinItemExecutor<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESULT> {
+public class DataItemExecutorAdapter<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESULT>
+        extends AbstractDataItemExecutor<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESULT> {
     private final String name;
     private final int runLevel;
 
@@ -27,7 +27,7 @@ public class JoinItemExecutorAdapter<SOURCE_DATA, JOIN_KEY, JOIN_DATA, RESULT>
     private final BiConsumer<SOURCE_DATA, JOIN_KEY> lostCallback;
 
 
-    public JoinItemExecutorAdapter(String name,
+    public DataItemExecutorAdapter(String name,
                                    Integer runLevel,
                                    Function<SOURCE_DATA, JOIN_KEY> keyFromSourceData,
                                    Function<Object, Object> joinDataLoader,

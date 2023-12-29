@@ -1,7 +1,7 @@
 package cn.javastack.data.loader.core.support;
 
 import cn.javastack.data.loader.annotation.DataHolderType;
-import cn.javastack.data.loader.core.JoinItemExecutor;
+import cn.javastack.data.loader.core.DataItemExecutor;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
  * @param <JOIN_RESULT> 转换后的结果数据
  */
 @Slf4j
-abstract class AbstractJoinItemExecutor<SOURCE_DATA, JOIN_KEY, JOIN_DATA, JOIN_RESULT> implements JoinItemExecutor<SOURCE_DATA> {
+abstract class AbstractDataItemExecutor<SOURCE_DATA, JOIN_KEY, JOIN_DATA, JOIN_RESULT> implements DataItemExecutor<SOURCE_DATA> {
 
     /**
      * 从原始数据中生成 JoinKey

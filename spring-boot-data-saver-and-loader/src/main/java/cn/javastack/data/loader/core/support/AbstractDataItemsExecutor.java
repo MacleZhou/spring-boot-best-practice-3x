@@ -2,8 +2,8 @@ package cn.javastack.data.loader.core.support;
 
 
 import cn.javastack.data.loader.annotation.DataHolderType;
-import cn.javastack.data.loader.core.JoinItemExecutor;
-import cn.javastack.data.loader.core.JoinItemsExecutor;
+import cn.javastack.data.loader.core.DataItemExecutor;
+import cn.javastack.data.loader.core.DataItemsExecutor;
 import com.google.common.base.Preconditions;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * 根据runLevel由小到大排序所有的执行器
  */
-abstract class AbstractJoinItemsExecutor<DATA>
-        implements JoinItemsExecutor<DATA> {
+abstract class AbstractDataItemsExecutor<DATA>
+        implements DataItemsExecutor<DATA> {
 
     @Getter(AccessLevel.PROTECTED)
     private final Class<DATA> dataCls;
@@ -26,17 +26,17 @@ abstract class AbstractJoinItemsExecutor<DATA>
 
 
     @Getter(AccessLevel.PROTECTED)
-    private final List<JoinItemExecutor<DATA>> joinItemExecutors;
+    private final List<DataItemExecutor<DATA>> dataItemExecutors;
 
-    public AbstractJoinItemsExecutor(Class<DATA> dataCls,
+    public AbstractDataItemsExecutor(Class<DATA> dataCls,
                                      DataHolderType dataHolderType,
-                                     List<JoinItemExecutor<DATA>> joinItemExecutors) {
+                                     List<DataItemExecutor<DATA>> dataItemExecutors) {
         Preconditions.checkArgument(dataCls != null);
         this.dataHolderType = (null == dataHolderType) ? DataHolderType.AGGREGATE : dataHolderType;
-        Preconditions.checkArgument(joinItemExecutors != null);
+        Preconditions.checkArgument(dataItemExecutors != null);
 
         this.dataCls = dataCls;
-        this.joinItemExecutors = joinItemExecutors;
-        Collections.sort(this.joinItemExecutors, Comparator.comparingInt(JoinItemExecutor::runOnLevel));
+        this.dataItemExecutors = dataItemExecutors;
+        Collections.sort(this.dataItemExecutors, Comparator.comparingInt(DataItemExecutor::runOnLevel));
     }
 }
