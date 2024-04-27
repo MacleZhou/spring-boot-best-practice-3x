@@ -61,6 +61,8 @@
         <module>spring-boot-jaimini</module>
         <module>spring-boot-mybatis-generator-ui</module>
         <module>spring-boot-data-saver-and-loader</module>
+        <module>spring-boot-beanname-validator</module>
+        <module>spring-boot-multi-authentication</module>
     </modules>
 
     <packaging>pom</packaging>
