@@ -1,4 +1,4 @@
-package cn.javastack.springboot.schedule;
+package cn.javastack.springboot.schedule.tasks;
 
 import lombok.Data;
 import org.springframework.scheduling.Trigger;

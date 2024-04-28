@@ -1,0 +1,9 @@
+
+spring:
+  rsocket:
+    server:
+      port: 9898
+      transport: tcp
+
+server:
+  port: 8080

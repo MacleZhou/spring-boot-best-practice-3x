@@ -63,6 +63,10 @@
         <module>spring-boot-data-saver-and-loader</module>
         <module>spring-boot-beanname-validator</module>
         <module>spring-boot-multi-authentication</module>
+        <module>spring-boot-thumbnailator</module>
+        <module>spring-boot-rsocket</module>
+        <module>spring-boot-bean-wrapper</module>
+        <module>spring-boot-schedule-dynamic-cron</module>
     </modules>
 
     <packaging>pom</packaging>

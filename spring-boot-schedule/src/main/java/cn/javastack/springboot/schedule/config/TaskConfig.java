@@ -1,4 +1,4 @@
-package cn.javastack.springboot.schedule;
+package cn.javastack.springboot.schedule.config;
 
 import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
