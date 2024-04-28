@@ -67,6 +67,7 @@
         <module>spring-boot-rsocket</module>
         <module>spring-boot-bean-wrapper</module>
         <module>spring-boot-schedule-dynamic-cron</module>
+        <module>spring-boot-download-concept</module>
     </modules>
 
     <packaging>pom</packaging>
