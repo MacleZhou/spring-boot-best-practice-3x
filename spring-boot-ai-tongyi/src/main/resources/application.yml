@@ -1,0 +1,7 @@
+
+spring:
+  cloud:
+    ai:
+      tongyi:
+        # 配置你申请的api-key
+        api-key: sk-e81c9de80b1d49a8b133bf4f8db43b65

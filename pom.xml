@@ -68,11 +68,25 @@
         <module>spring-boot-bean-wrapper</module>
         <module>spring-boot-schedule-dynamic-cron</module>
         <module>spring-boot-download-concept</module>
+        <module>spring-boot-dynamic-api</module>
+        <module>spring-boot-ai-tongyi</module>
     </modules>
 
     <packaging>pom</packaging>
     <name>spring-boot-best-practice</name>
     <description>Spring Boot Best Practice</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2023.0.1.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
 
