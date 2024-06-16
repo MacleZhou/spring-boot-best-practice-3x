@@ -1,0 +1,23 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+### Create a new enrollment
+POST localhost:8080/enrollment/enroll
+Content-Type: application/json
+
+{
+  "employeeId": 999,
+  "courseId": 999
+}
+
+### Complete an enrollment
+POST localhost:8080/enrollment/complete
+Content-Type: application/json
+
+{
+  "employeeId": 999,
+  "courseId": 999
+}

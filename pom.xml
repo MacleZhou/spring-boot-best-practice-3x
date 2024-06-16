@@ -70,6 +70,9 @@
         <module>spring-boot-download-concept</module>
         <module>spring-boot-dynamic-api</module>
         <module>spring-boot-ai-tongyi</module>
+        <module>spring-boot-swagger3-openapi</module>
+        <module>spring-boot-swagger2</module>
+        <module>spring-boot-state-machine</module>
     </modules>
 
     <packaging>pom</packaging>
