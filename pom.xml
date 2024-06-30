@@ -73,6 +73,12 @@
         <module>spring-boot-swagger3-openapi</module>
         <module>spring-boot-swagger2</module>
         <module>spring-boot-state-machine</module>
+        <module>spring-boot-timefold-solver</module>
+        <module>spring-boot-vaadin</module>
+        <module>spring-boot-openai</module>
+        <module>spring-boot-api-version</module>
+        <module>spring-boot-jsoup</module>
+        <module>spring-boot-mobile</module>
     </modules>
 
     <packaging>pom</packaging>
