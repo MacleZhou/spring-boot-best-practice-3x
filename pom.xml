@@ -79,6 +79,13 @@
         <module>spring-boot-api-version</module>
         <module>spring-boot-jsoup</module>
         <module>spring-boot-mobile</module>
+        <module>spring-boot-block-chain</module>
+        <module>spring-boot-tika</module>
+        <module>spring-boot-deeplearning4j</module>
+        <module>spring-boot-olingo</module>
+        <module>spring-boot-dynamic-jar-loading</module>
+        <module>spring-boot-dynamic-jar-loading/spring-boot-dynamic-jar-loading-app</module>
+        <module>spring-boot-dynamic-jar-loading/spring-boot-dynamic-jar-loading-test</module>
     </modules>
 
     <packaging>pom</packaging>
