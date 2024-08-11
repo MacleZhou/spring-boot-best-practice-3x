@@ -1,5 +1,7 @@
 package com.macle.study.deployment;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -9,9 +11,14 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 自定义类加载器
  **/
+@Slf4j
 public class MyClassLoader extends URLClassLoader {
 
-    private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<>();
+    private static LockProvider LOCK_PROVIDER = new LockProvider();
+
+    private final ClassLoader rootClassLoader;
+
+    private final Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<>();
 
     public Map<String, Class<?>> getLoadedClasses() {
         return loadedClasses;
@@ -19,24 +26,28 @@ public class MyClassLoader extends URLClassLoader {
 
     public MyClassLoader(URL[] urls, ClassLoader parent) {
         super(urls, parent);
+        this.rootClassLoader = findRootClassLoader(parent);
+        log.info("rootClassLoader: {}", rootClassLoader.getClass().getCanonicalName());
     }
 
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
-        // 从已加载的类集合中获取指定名称的类
-        Class<?> clazz = loadedClasses.get(name);
-        if (clazz != null) {
-            return clazz;
-        }
-        try {
-            // 调用父类的findClass方法加载指定名称的类
-            clazz = super.findClass(name);
-            // 将加载的类添加到已加载的类集合中
-            loadedClasses.put(name, clazz);
-            return clazz;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
+        synchronized (MyClassLoader.LOCK_PROVIDER.getLock(this, name)) {
+            // 从已加载的类集合中获取指定名称的类
+            Class<?> clazz = loadedClasses.get(name);
+            if (clazz != null) {
+                return clazz;
+            }
+            try {
+                // 调用父类的findClass方法加载指定名称的类
+                clazz = super.findClass(name);
+                // 将加载的类添加到已加载的类集合中
+                loadedClasses.put(name, clazz);
+                return clazz;
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -59,6 +70,25 @@ public class MyClassLoader extends URLClassLoader {
             close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private ClassLoader findRootClassLoader(ClassLoader classLoader) {
+        while (classLoader != null){
+            if(classLoader.getParent() == null){
+                return classLoader;
+            }
+            classLoader = classLoader.getParent();
+        }
+        return null;
+    }
+
+    /**
+     * Strategy used to provide the synchronize lock object to use when loading classes.
+     */
+    private static class LockProvider {
+        public Object getLock(MyClassLoader classLoader, String className) {
+            return classLoader;
         }
     }
 }

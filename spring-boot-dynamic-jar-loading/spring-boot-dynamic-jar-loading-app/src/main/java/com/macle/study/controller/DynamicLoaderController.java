@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.MalformedURLException;
+
 @RestController
 public class DynamicLoaderController {
 
@@ -17,11 +19,13 @@ public class DynamicLoaderController {
     private ApplicationContext applicationContext;
 
     @GetMapping("/load-jar")
-    public String load() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public String load() throws ClassNotFoundException, InstantiationException, IllegalAccessException, MalformedURLException {
 
         String className = "LOAD CHECK != NULL :::";
 
         Object object = null;
+        Class<?> clazzCalculator = null;
+        Class<?> clazzCalculatorCore = null;
         Object object1 = null;
         Object object2 = null;
         Object object3 = null;
@@ -34,9 +38,25 @@ public class DynamicLoaderController {
             ex.printStackTrace();
         }
 
-        className += "; BEFORE = " + (null != object);
+        try {
+            clazzCalculator = Class.forName("com.macle.study.deployment.service.Calculator");
+        }
+        catch (Exception ex){
+            System.out.println("BEFORE.getBean");
+            ex.printStackTrace();
+        }
 
-        dynamicLoad.loadJar("/Users/maclezhou/JavaWorld/spring-boot-best-practice-3x/spring-boot-dynamic-jar-loading/spring-boot-dynamic-jar-loading-test/target", "spring-boot-dynamic-jar-loading-test-1.0.jar");
+        try {
+            clazzCalculatorCore = Class.forName("com.macle.study.deployment.service.impl.CalculatorCore");
+        }
+        catch (Exception ex){
+            System.out.println("BEFORE.getBean");
+            ex.printStackTrace();
+        }
+
+        className += "; BEFORE = " + (null != object) + ";clazzCalculator=" + (null != clazzCalculator) + "; clazzCalculatorCore=" + (null != clazzCalculatorCore);
+
+        dynamicLoad.loadJar("/Users/maclezhou/JavaWorld/spring-boot-best-practice-3x/spring-boot-dynamic-jar-loading/spring-boot-dynamic-jar-loading-test/target");
 
         try {
             object = applicationContext.getBean("calculator");
@@ -50,12 +70,27 @@ public class DynamicLoaderController {
             ex.printStackTrace();
             System.out.println("LOAD AFTER EXCEPTION DONE");
         }
-        className += "; AFTER = " + (null != object);
+        try {
+            clazzCalculator = Class.forName("com.macle.study.deployment.service.Calculator");
+        }
+        catch (Exception ex){
+            System.out.println("BEFORE.getBean");
+            ex.printStackTrace();
+        }
+
+        try {
+            clazzCalculatorCore = Class.forName("com.macle.study.deployment.service.impl.CalculatorCore");
+        }
+        catch (Exception ex){
+            System.out.println("BEFORE.getBean");
+            ex.printStackTrace();
+        }
+        className += "; \nAFTER = " + (null != object);
         className += "; AFTER1 = " + (null != object1);
         className += "; AFTER2 = " + (null != object2);
         className += "; AFTER3 = " + (null != object3);
         className += "; AFTER4 = " + (null != object4);
-        return className;
+        return className + ";clazzCalculator=" + (null != clazzCalculator) + "; clazzCalculatorCore=" + (null != clazzCalculatorCore);
     }
 
     @GetMapping("/unload-jar")
@@ -63,6 +98,8 @@ public class DynamicLoaderController {
         String className = "UNLOAD CHEECK != NULL::: ";
 
         Object object = null;
+        Class<?> clazzCalculator = null;
+        Class<?> clazzCalculatorCore = null;
         Object object1 = null;
         Object object2 = null;
         Object object3 = null;
@@ -71,13 +108,28 @@ public class DynamicLoaderController {
             object = applicationContext.getBean("calculator");
         }
         catch (Exception ex){
-            System.out.println("BEFORE");
+            System.out.println("BEFORE.getBean");
             ex.printStackTrace();
         }
 
-        className += "; BEFORE = " + (null != object);
+        try {
+            clazzCalculator = Class.forName("com.macle.study.deployment.service.Calculator");
+        }
+        catch (Exception ex){
+            System.out.println("BEFORE.getBean");
+            ex.printStackTrace();
+        }
 
-        dynamicLoad.unloadJar("/Users/maclezhou/JavaWorld/spring-boot-best-practice-3x/spring-boot-dynamic-jar-loading/spring-boot-dynamic-jar-loading-test/target", "spring-boot-dynamic-jar-loading-test-1.0.jar");
+        try {
+            clazzCalculatorCore = Class.forName("com.macle.study.deployment.service.impl.CalculatorCore");
+        }
+        catch (Exception ex){
+            System.out.println("BEFORE.getBean");
+            ex.printStackTrace();
+        }
+        className += "; BEFORE = " + (null != object) + ";clazzCalculator=" + (null != clazzCalculator) + "; clazzCalculatorCore=" + (null != clazzCalculatorCore);
+
+        dynamicLoad.unloadJar("/Users/maclezhou/JavaWorld/spring-boot-best-practice-3x/spring-boot-dynamic-jar-loading/spring-boot-dynamic-jar-loading-test/target");
 
         try {
             object1 = applicationContext.getBean("calculator");
@@ -90,11 +142,26 @@ public class DynamicLoaderController {
             ex.printStackTrace();
             System.out.println("UNLOAD AFTER EXCEPTION DONE");
         }
-        className += "; AFTER1 = " + (null != object1);
+        try {
+            clazzCalculator = Class.forName("com.macle.study.deployment.service.Calculator");
+        }
+        catch (Exception ex){
+            System.out.println("BEFORE.getBean");
+            ex.printStackTrace();
+        }
+
+        try {
+            clazzCalculatorCore = Class.forName("com.macle.study.deployment.service.impl.CalculatorCore");
+        }
+        catch (Exception ex){
+            System.out.println("BEFORE.getBean");
+            ex.printStackTrace();
+        }
+        className += "; \n AFTER1 = " + (null != object1);
         className += "; AFTER2 = " + (null != object2);
         className += "; AFTER3 = " + (null != object3);
         className += "; AFTER4 = " + (null != object4);
-        return className;
+        return className + ";clazzCalculator=" + (null != clazzCalculator) + "; clazzCalculatorCore=" + (null != clazzCalculatorCore);
 
     }
 }

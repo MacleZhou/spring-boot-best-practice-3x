@@ -1,15 +1,12 @@
 package com.macle.study.deployment;
-import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.api.AbstractOpenApiResource;
 import org.springdoc.core.providers.SpringDocProviders;
-import org.springdoc.core.providers.SpringWebProvider;
 import org.springdoc.core.service.OpenAPIService;
 import org.springdoc.webmvc.api.MultipleOpenApiResource;
 import org.springdoc.webmvc.api.OpenApiResource;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -17,25 +14,23 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.JarURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.stream.Collectors;
 
 @Component
 public class DynamicLoad {
@@ -48,46 +43,60 @@ public class DynamicLoad {
     private MultipleOpenApiResource multipleOpenApiResource;
     private SpringDocProviders springDocProviders;
 
-    private Map<String, MyClassLoader> myClassLoaderCenter = new ConcurrentHashMap<>();
+    private Map<String, MyClassLoader> myClassLoaderCache = new ConcurrentHashMap<>();
 
     private Map<String, List<String>> controllerBeanMap = new ConcurrentHashMap<>();
 
     /**
-     * 动态加载指定路径下指定jar包
-     * @param path
-     * @param fileName
+     * 动态加载指定路径下指定所有的jar包
+     * @param jarFilesFolder
      * */
-    public void loadJar(String path, String fileName) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        File file = new File(path +"/" + fileName);
-        System.out.println("file.exist=" + file.exists());
-        Map<String, String> jobPar = new HashMap<>();
+    public void loadJar(String jarFilesFolder) throws ClassNotFoundException, InstantiationException, IllegalAccessException, MalformedURLException {
+        File jarFolder = new File(jarFilesFolder);
+        System.out.println("jarFilesFolder=" + jarFilesFolder + ";file.exist=" + jarFolder.exists() + " & is directory=" + jarFolder.isDirectory());
+        File[] files = jarFolder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jar");
+            }
+        });
+        URL[] urls = new URL[files.length];
+        for (int i = 0; i < files.length; i++) {
+            // URLClassloader加载jar包规范必须这么写
+            urls[i] = new URL("jar:file:" + files[i].getAbsolutePath() + "!/");
+        }
+
+        logger.info("urls.length=" + urls.length);
         // 获取beanFactory
         DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
         // 获取当前项目的执行器
         try {
-            // URLClassloader加载jar包规范必须这么写
-            URL url = new URL("jar:file:" + file.getAbsolutePath() + "!/");
-            URLConnection urlConnection = url.openConnection();
-            JarURLConnection jarURLConnection = (JarURLConnection)urlConnection;
-            // 获取jar文件
-            JarFile jarFile = jarURLConnection.getJarFile();
-            Enumeration<JarEntry> entries = jarFile.entries();
-
             // 创建自定义类加载器，并加到map中方便管理
-            MyClassLoader myClassloader = new MyClassLoader(new URL[] { url }, ClassLoader.getSystemClassLoader());
-            myClassLoaderCenter.put(fileName, myClassloader);
-            Set<Class> initBeanClass = new HashSet<>(jarFile.size());
+            //MyClassLoader myClassloader = new MyClassLoader(urls, getClass().getClassLoader());
+            MyClassLoader myClassloader = new MyClassLoader(urls, getClass().getClassLoader());
+            myClassLoaderCache.put(jarFilesFolder, myClassloader);
+            Set<Class> initBeanClass = new HashSet<>();
             // 遍历文件
-            while (entries.hasMoreElements()) {
-                JarEntry jarEntry = entries.nextElement();
-                if (jarEntry.getName().endsWith(".class")) {
-                    // 1. 加载类到jvm中
-                    // 获取类的全路径名
-                    String className = jarEntry.getName().replace('/', '.').substring(0, jarEntry.getName().length() - 6);
-                    // 1.1进行反射获取
-                    myClassloader.loadClass(className);
+            for (int i = 0; i < urls.length; i++) {
+                URLConnection urlConnection = urls[i].openConnection();
+                JarURLConnection jarURLConnection = (JarURLConnection)urlConnection;
+                logger.info("jarURLConnection=" + jarURLConnection);
+                // 获取jar文件
+                JarFile jarFile = jarURLConnection.getJarFile();
+                Enumeration<JarEntry> entries = jarFile.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry jarEntry = entries.nextElement();
+                    if (jarEntry.getName().endsWith(".class")) {
+                        // 1. 加载类到jvm中
+                        // 获取类的全路径名
+                        String className = jarEntry.getName().replace('/', '.').substring(0, jarEntry.getName().length() - 6);
+                        // 1.1进行反射获取
+                        myClassloader.findClass(className);
+                        logger.info("loadClass.className=" + className);
+                    }
                 }
             }
+
             Map<String, Class<?>> loadedClasses = myClassloader.getLoadedClasses();
             List<String> controllers = new ArrayList<>();
             for(Map.Entry<String, Class<?>> entry : loadedClasses.entrySet()){
@@ -119,12 +128,11 @@ public class DynamicLoad {
                     }*/
                     initBeanClass.add(clazz);
                 }
-
             }
             // spring bean实际注册
             initBeanClass.forEach(beanFactory::getBean);
 
-            this.controllerBeanMap.put(fileName, controllers);
+            this.controllerBeanMap.put(jarFilesFolder, controllers);
 
             // 配置Controller到RequestMappingHandlerMapping中，这样API就可以调用了
             controllers.forEach(controllerBeanName -> {
@@ -175,21 +183,20 @@ public class DynamicLoad {
             }
 
         } catch (IOException e) {
-            logger.error("读取{} 文件异常", fileName);
+            logger.error("读取{} 文件异常", jarFolder);
             e.printStackTrace();
-            throw new RuntimeException("读取jar文件异常: " + fileName);
+            throw new RuntimeException("读取jar文件异常: " + jarFolder);
         }
     }
 
 
     /**
      * 动态卸载指定路径下指定jar包
-     * @param fileName
-     * @return map<jobHander, Cron> 创建xxljob任务时需要的参数配置
+     * @param jarFolder
      */
-    public void unloadJar(String path, String fileName) throws IllegalAccessException, NoSuchFieldException {
+    public void unloadJar(String jarFolder) throws IllegalAccessException, NoSuchFieldException {
         // 获取加载当前jar的类加载器
-        MyClassLoader myClassLoader = myClassLoaderCenter.get(fileName);
+        MyClassLoader myClassLoader = myClassLoaderCache.get(jarFolder);
 
         // 获取beanFactory，准备从spring中卸载
         DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
@@ -210,7 +217,7 @@ public class DynamicLoad {
                 bean = applicationContext.getBean(beanName);
 
                 //如果是controller类
-                if(bean != null && this.controllerBeanMap.get(fileName).contains(beanName)){
+                if(bean != null && this.controllerBeanMap.get(jarFolder).contains(beanName)){
                     //从RequestMappingHandlerMapping移除controller
                     Class<?> targetClass = bean.getClass();
                     /**
@@ -263,7 +270,7 @@ public class DynamicLoad {
             Vector<Class<?>> classes = (Vector<Class<?>>) field.get(myClassLoader);
             classes.removeAllElements();
             // 移除类加载器的引用
-            myClassLoaderCenter.remove(fileName);
+            myClassLoaderCache.remove(jarFolder);
             // 卸载类加载器
             myClassLoader.unload();
         } catch (NoSuchFieldException e) {
@@ -273,7 +280,7 @@ public class DynamicLoad {
             logger.error("动态卸载的类，从类加载器中卸载失败");
             e.printStackTrace();
         }
-        logger.error("{} 动态卸载成功", fileName);
+        logger.error("{} 动态卸载成功", jarFolder);
     }
 
     private OpenAPIService getOpenApiService() {
