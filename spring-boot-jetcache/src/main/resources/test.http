@@ -1,0 +1,36 @@
+### GET request to example server
+GET localhost:8080/user/getRemote?id=1
+
+
+###
+GET localhost:8080/user/getLocal?id=1
+
+
+###
+GET localhost:8080/user/getBoth?id=1
+
+###
+POST localhost:8080/user/updateUser
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Macle",
+  "age": 50,
+  "sex": 0
+}
+
+
+###
+GET localhost:8080/user2/get?id=1
+
+###
+POST localhost:8080/user2/updateUser
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Macle",
+  "age": 50,
+  "sex": 0
+}

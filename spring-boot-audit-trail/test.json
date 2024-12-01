@@ -1,0 +1,10 @@
+{
+  "beforeValue": "{\"id\":1749086365418647554,\"name\":\"华为Meta60\",\"price\":6000.00,\"description\":\"遥遥领先\",\"brand\":\"HUA WEI\",\"image_url\":\"fileId\",\"create_time\":1705849661000,\"update_time\":1705849661000}",
+  "dataChange": "{\"brand\":{\"newValue\":\"华为\",\"oldValue\":\"HUA WEI\"}}",
+  "executeMethod": "com.atshuo.audit.service.impl.GoodsServiceImpl#updateGoods",
+  "id": 1752313723567009794,
+  "newValue": "{\"id\":1749086365418647554,\"name\":\"华为Meta60\",\"price\":6000.00,\"description\":\"遥遥领先\",\"brand\":\"华为\",\"image_url\":\"fileId\",\"create_time\":1705849661000,\"update_time\":1705849661000}",
+  "requestId": "202401302052024341752313722161917954",
+  "tableName": "goods",
+  "transferData": "[{\"param1\":{\"brand\":\"华为\",\"createTime\":1705849661000,\"description\":\"遥遥领先\",\"id\":1749086365418647554,\"imageUrl\":\"fileId\",\"name\":\"华为Meta60\",\"price\":6000.00,\"updateTime\":1705849661000},\"et\":{\"$ref\":\"$[0].param1\"}}]"
+}

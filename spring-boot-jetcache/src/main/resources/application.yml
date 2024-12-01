@@ -1,0 +1,29 @@
+jetcache:
+  # 统计间隔，0表示不统计，开启后定期在控制台输出缓存信息
+  statIntervalMinutes: 15
+  # 是否把cacheName作为远程缓存key前缀
+  areaInCacheName: false
+  # 本地缓存配置
+  local:
+    default: # default表示全部生效，也可以指定某个cacheName
+      # 本地缓存类型，其他可选：caffeine/linkedhashmap
+      type: linkedhashmap
+      keyConvertor: fastjson
+  # 远程缓存配置
+  remote:
+    default: # default表示全部生效，也可以指定某个cacheName
+      type: redis
+      # key转换器方式n
+      keyConvertor: fastjson
+      broadcastChannel: projectA
+      # redis序列化方式
+      valueEncoder: java
+      valueDecoder: java
+      # redis线程池
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      # redis地址与端口
+      host: 127.0.0.1
+      port: 6379

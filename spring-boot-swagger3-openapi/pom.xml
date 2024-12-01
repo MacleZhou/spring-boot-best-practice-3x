@@ -62,12 +62,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-            <version>5.8.23</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-core</artifactId>
             <version>3.0.1-SNAPSHOT</version>
