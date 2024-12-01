@@ -1,0 +1,22 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8080
+
+spring:
+  application:
+    name: springboot3-security-jwt
+  datasource:
+    #数据库驱动完整类名
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #数据库连接url
+    url: jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    #数据库用户名
+    username: root
+    #数据库密码
+    password: NBfe@2099
+
+# Logger Config
+logging:
+  level:
+    com.hexadecimal: debug
