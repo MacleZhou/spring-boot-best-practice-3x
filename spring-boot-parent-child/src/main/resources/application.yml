@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: springboot-parent-child
+---
+logging:
+  include-application-name: false
+  pattern:
+    dateformat: HH:mm:ss
