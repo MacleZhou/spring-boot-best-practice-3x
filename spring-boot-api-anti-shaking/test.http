@@ -1,0 +1,12 @@
+### POST request to example server
+POST http://localhost:8080/demo/add
+Content-Type: application/json
+
+{
+  "userName": "Macle",
+  "userPhone": "123456",
+  "roleIdList": [1, 2, 3]
+}
+
+
+###

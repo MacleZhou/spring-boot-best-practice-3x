@@ -92,6 +92,9 @@
         <module>spring-boot-parent-child</module>
         <module>spring-boot-spel-expression</module>
         <module>spring-boot-jqassistant</module>
+        <module>spring-boot-jgit</module>
+        <module>spring-boot-jtracer</module>
+        <module>spring-boot-api-anti-shaking</module>
     </modules>
 
     <packaging>pom</packaging>
