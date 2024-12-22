@@ -1,0 +1,58 @@
+
+### Setup 1: Before Add advisor, return 'hello world'
+GET http://localhost:8080/hello/fun
+
+### Setup 2: Invoke add advisor by annotation
+GET http://localhost:8080/advisor/add?interceptorClass=cn.javastack.springboot.aop.inteceptor.OneInteceptor&annotationClass=cn.javastack.springboot.aop.annotation.XdxAnnotation
+
+### Setup 3: After Add advisor, return 'hello world-增强One'
+GET http://localhost:8080/hello/fun
+
+### Setup 4: Invoke delete advisor by annotation
+GET http://localhost:8080/advisor/delete?interceptorClass=cn.javastack.springboot.aop.inteceptor.OneInteceptor&annotationClass=cn.javastack.springboot.aop.annotation.XdxAnnotation
+
+### Setup 5: After delete advisor, return 'hello world'
+GET http://localhost:8080/hello/fun
+
+### Setup 6: Invoke add advisor by expression
+GET http://localhost:8080/advisor/add?interceptorClass=cn.javastack.springboot.aop.inteceptor.TwoInteceptor&expression=execution(* cn.javastack.springboot.aop.controller.HelloController.hello(..))
+
+### Setup 7: After Add advisor, return 'hello world-增强Two'
+GET http://localhost:8080/hello/fun
+
+### Setup 8: Invoke add advisor by annotation again, 将有两个增强
+GET http://localhost:8080/advisor/add?interceptorClass=cn.javastack.springboot.aop.inteceptor.OneInteceptor&annotationClass=cn.javastack.springboot.aop.annotation.XdxAnnotation
+
+### Setup 9: 在两个增强后, return 'hello world-增强One-增强Two'
+GET http://localhost:8080/hello/fun
+
+
+### Part 2 - 测试XdxAnnotation加到类上
+
+### 2.1: Before Add advisor, return 'hello world'
+GET http://localhost:8080/hello2/fun1
+
+### 2.2
+GET http://localhost:8080/hello2/fun2
+
+### Setup 2.3: Invoke add advisor by annotation
+GET http://localhost:8080/advisor/add?interceptorClass=cn.javastack.springboot.aop.inteceptor.OneInteceptor&annotationClass=cn.javastack.springboot.aop.annotation.XdxAnnotation
+
+### 2.4: After advisor, return 'hello world-增强One'
+GET http://localhost:8080/hello2/fun1
+
+### 2.5: After advisor, return 'hello world-增强One'
+GET http://localhost:8080/hello2/fun2
+
+### 2.6: Invoke add advisor by expression
+GET http://localhost:8080/advisor/add?interceptorClass=cn.javastack.springboot.aop.inteceptor.TwoInteceptor&expression=execution(* cn.javastack.springboot.aop.controller.Hello2Controller.*(..))
+
+### 2.4: After advisor, return 'hello world-增强Two-增强One'
+GET http://localhost:8080/hello2/fun1
+
+### 2.5: After advisor, return 'hello world-增强Two-增强One'
+GET http://localhost:8080/hello2/fun2
+
+
+
+###
