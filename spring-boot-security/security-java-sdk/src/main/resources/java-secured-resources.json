@@ -1,0 +1,42 @@
+{
+  "applicationId": "AAA",
+  "applicationType": "JAVA-SPRING",
+  "securedResources": [
+    {
+      "id" : "GET /xlob/test/registration/complete/{requestNumber}",
+      "description": "Registration",
+      "type": "API",
+      "accessControl": true,
+      "preDataAuthority": false,
+      "postDataAuthority": false,
+      "permissionId": "registration"
+    },
+    {
+      "id" : "POST /xlob/test/assessment/approve/{requestNumber}",
+      "name": "Approve Claim",
+      "type": "API",
+      "accessControl": true,
+      "preDataAuthority": false,
+      "postDataAuthority": false,
+      "permissionId": "approve"
+    },
+    {
+      "id" : "com.macle.security.demo.AssessmentServiceImpl.approve(..)",
+      "description": "Approve Claim",
+      "type": "METHOD",
+      "accessControl": false,
+      "preDataAuthority": true,
+      "postDataAuthority": false,
+      "permissionId": "approve"
+    },
+    {
+      "id" : "com.macle.security.demo.QueryServiceImpl.list(..)",
+      "description": "Query Claim",
+      "type": "METHOD",
+      "accessControl": false,
+      "preDataAuthority": false,
+      "postDataAuthority": true,
+      "permissionId": "queryClaim"
+    }
+  ]
+}

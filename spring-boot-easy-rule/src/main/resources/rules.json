@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Rule C",
+    "description": "When number is divisible by 2 and 3",
+    "priority": 1,
+    "condition": "number % 2 == 0 && number % 3 == 0",
+    "actions": [
+      "System.out.println(\"我既可被2整除，也能被3整除\");"
+    ]
+  },
+  {
+    "name": "Rule A",
+    "description": "When number is divisible by 2",
+    "priority": 2,
+    "condition": "number % 2 == 0",
+    "actions": [
+      "System.out.println(\"我能被2整除\");"
+    ]
+  },
+  {
+    "name": "Rule B",
+    "description": "When number is divisible by 3",
+    "priority": 3,
+    "condition": "number % 3 == 0",
+    "actions": [
+      "System.out.println(\"我能被3整除\");"
+    ]
+  }
+]

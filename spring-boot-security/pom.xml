@@ -16,6 +16,8 @@
         <module>security-client</module>
         <module>security-basic</module>
         <module>security-gitee</module>
+        <module>security-java-sdk</module>
+        <module>security-common</module>
     </modules>
 
     <properties>

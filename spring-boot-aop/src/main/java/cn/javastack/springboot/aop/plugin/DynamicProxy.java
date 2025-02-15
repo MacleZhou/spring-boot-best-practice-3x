@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DynamicProxy extends ProxyProcessorSupport implements BeanFactoryAware {
+
     private DefaultListableBeanFactory beanFactory;
 
 

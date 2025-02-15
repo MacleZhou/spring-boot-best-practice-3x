@@ -1,0 +1,20 @@
+[
+  {
+    "name": "数字规则1",
+    "description": "数字是否等于5",
+    "condition": "#number % 5 == 0",
+    "actions": [
+      "(#number)"
+    ],
+    "priority": 20
+  },
+  {
+    "name": "数字规则2",
+    "description": "数字计算差值",
+    "condition": "#number % 5 == 0",
+    "actions": [
+      "(#number) + (#number - 5 == 0 ? '差值等于0了' : '差值不等于0了')"
+    ],
+    "priority": 20
+  }
+]

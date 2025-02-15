@@ -1,0 +1,83 @@
+{
+  "authorityDeputies": [
+    {
+      "deputyId": "bsnpbq5",
+      "presentedId": "bsnpbq6"
+    }
+  ],
+  "userGroups": [
+    {
+      "userId": "bsnpbq5",
+      "groups": ["ABC", "BCD"]
+    }
+  ],
+  "groupAuthorities": [
+    {
+      "groupId": "ABC",
+      "roleIds": ["claimAdmin", "dataEntry", "claimAssessor"]
+    }
+  ],
+  "roles": [
+    {
+      "roleId" : "claimAdmin",
+      "permissions": [
+        {
+          "resourceId": "registerSave"
+        }
+      ]
+    },
+    {
+      "roleId" : "dataEntry",
+      "permissions": [
+        {
+          "resourceGroupId": "dataEntry"
+        }
+      ]
+    },
+    {
+      "roleId" : "assessorLevel1",
+      "permissions": [
+        {
+          "resourceId": "registerSave"
+        },
+        {
+          "resourceId": "dataEntrySave"
+        },
+        {
+          "resourceId": "approval",
+          "preDataAuthorities": {
+            "allowAny":  [
+              "#case.caseType == 'A' && #case.payableAmount <= 100000 && #case.currency != USD",
+              "#case.caseType == 'A' && #case.payableAmount <= 10000 && #case.currency == USD",
+              "#case.caseType == 'I' || #case.payableAmount <= 500000 || #case.currency != USD"
+            ],
+            "declineAny": []
+          },
+          "postDataAuthorities": {
+            "allowAny":  [
+              "#case.clientType != 'VIP'"
+            ],
+            "declineAny": []
+          }
+        }
+      ]
+    }
+  ],
+  "securedResources": [
+    {
+      "resourceId": "registerSave",
+      "resourceGroup": "registration",
+      "pointcuts": ["execution(public com.macle.security.test.api.ClaimRegistrationController.saveDraft(..))"],
+      "accessControl" : true,
+      "preDataAuthority": false,
+      "postDataAuthority": false
+    },
+    {
+      "resourceGroup": "dataEntry",
+      "pointcuts": ["execution(public com.macle.security.test.api.ClaimDataEntryController.*(..))"],
+      "accessControl" : true,
+      "preDataAuthority": false,
+      "postDataAuthority": false
+    }
+  ]
+}

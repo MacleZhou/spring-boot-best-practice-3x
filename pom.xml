@@ -95,6 +95,13 @@
         <module>spring-boot-jgit</module>
         <module>spring-boot-jtracer</module>
         <module>spring-boot-api-anti-shaking</module>
+        <module>spring-boot-shed-lock</module>
+        <module>spring-boot-csv</module>
+        <module>spring-boot-easy-rule</module>
+        <module>spring-boot-lang-chain</module>
+        <module>spring-boot-dynamic-conditional</module>
+        <module>spring-boot-distributed-lock</module>
+        <module>spring-boot-e-stamp</module>
     </modules>
 
     <packaging>pom</packaging>

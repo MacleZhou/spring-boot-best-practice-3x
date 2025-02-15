@@ -16,7 +16,7 @@ management:
   endpoints:
     jmx:
       exposure:
-        include: health,info
+        include: health,metrics,prometheus
     web:
       discovery:
         enabled: true
@@ -35,8 +35,8 @@ management:
   tracing:
     sampling:
       probability: 1.0
-  prometheus:
-    metrics:
-      export:
+  metrics:
+    export:
+      prometheus:
         pushgateway:
           enabled: true
