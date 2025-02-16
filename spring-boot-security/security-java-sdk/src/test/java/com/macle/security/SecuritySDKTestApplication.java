@@ -1,10 +1,15 @@
 package com.macle.security;
 
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-@SpringBootTest
+@EnableAspectJAutoProxy
+@SpringBootApplication
 public class SecuritySDKTestApplication {
 
-
+    public static void main(String[] args) {
+        SpringApplication.run(SecuritySDKTestApplication.class, args);
+    }
 
 }

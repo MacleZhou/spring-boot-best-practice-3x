@@ -1,0 +1,20 @@
+[
+  {
+    "id" : "GET /test/test-api-by-remote-resource",
+    "description": "Registration",
+    "type": "API",
+    "accessControl": true,
+    "preDataAuthority": false,
+    "postDataAuthority": false,
+    "permissionId": "registration"
+  },
+  {
+    "id" : "com.macle.security.test.service.TestService.expressionApproval()",
+    "description": "Approve Claim",
+    "type": "METHOD",
+    "accessControl": false,
+    "preDataAuthority": true,
+    "postDataAuthority": false,
+    "permissionId": "approve"
+  }
+]

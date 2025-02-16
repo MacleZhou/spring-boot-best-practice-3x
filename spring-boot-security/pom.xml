@@ -12,12 +12,12 @@
     <artifactId>spring-boot-security</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>security-server</module>
         <module>security-client</module>
         <module>security-basic</module>
         <module>security-gitee</module>
         <module>security-java-sdk</module>
-        <module>security-common</module>
+        <module>security-annomos</module>
+        <module>security-jwt-token</module>
     </modules>
 
     <properties>

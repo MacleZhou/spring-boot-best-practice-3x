@@ -15,4 +15,5 @@ public class SecuredResource {
     private boolean preDataAuthority;
     private boolean postDataAuthority;
     private String permissionId;
+    private String expression;
 }

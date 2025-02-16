@@ -1,0 +1,27 @@
+[
+  {
+    "id" : "test-api-by-annotation",
+    "description": "test-api-by-annotation",
+    "accessAllow": false
+  },
+  {
+    "id" : "registration",
+    "description": "Registration",
+    "accessAllow": true
+  },
+  {
+    "id" : "approve",
+    "description": "Approve Claim",
+    "accessAllow": true,
+    "preDataPermissions": [
+      {
+        "expression": "#case.claimType.equals('A') && #case.submissionDate.day() < 14 && #{case.claimAmount}<50000.00",
+        "description": "AI Within 14days, Amount<50K"
+      },
+      {
+        "expression": "#case.claimType.equals('M') && #case.submissionDate.day() < 14 && #case.claimAmount<50000.00",
+        "description": "Medical Within 14days, Amount<100K"
+      }
+    ]
+  }
+]

@@ -14,11 +14,11 @@
       "accessAllow": true
     },
     {
-      "resourceId" : "execution com.macle.security.demo.AssessmentServiceImpl.approve(..)",
+      "resourceId" : "com.macle.security.demo.AssessmentServiceImpl.approve(..)",
       "description": "Approve Claim",
       "preDataPermissions": [
         {
-          "expression": "#{case.claimType}.equals('A') && #{case.submissionDate}.day() < 14 && #{case.claimAmount}<50000.00",
+          "expression": "#case.claimType.equals('A') && #case.submissionDate.day() < 14 && #case.claimAmount<50000.00",
           "description": "AI Within 14days, Amount<50K"
         },
         {
