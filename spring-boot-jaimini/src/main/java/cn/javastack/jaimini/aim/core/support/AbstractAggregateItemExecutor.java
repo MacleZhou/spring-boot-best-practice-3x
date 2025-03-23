@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Aggregate一种数据的核心逻辑
@@ -85,6 +82,18 @@ abstract class AbstractAggregateItemExecutor<SOURCE_DATA, AGGR_KEY, AGGR_DATA, A
             log.warn("no aggregate item data found");
             onNotFound(sourceDatas.get(0), aggregateKey);
             return;
+        }
+
+        /**
+         * There are some ORM framework return an Optional<?> object, thus need to handle and check from here
+         * */
+        if(resultDataFromLoader instanceof Optional<?>){
+            if(!((Optional<?>)resultDataFromLoader).isPresent()){
+                log.warn("no aggregate item data found");
+                onNotFound(sourceDatas.get(0), aggregateKey);
+                return;
+            }
+            resultDataFromLoader = ((Optional<?>)resultDataFromLoader).get();
         }
 
         log.debug("get join data {} by join key {}", resultDataFromLoader, aggregateKey);

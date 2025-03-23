@@ -1,5 +1,6 @@
 package com.macle.security.sdk.interceptor;
 
+import com.macle.security.sdk.annotation.ConditionalOnVariableTrue;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.framework.ProxyFactory;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnVariableTrue("security.authorization.enabled")
 public class DynamicProxy extends ProxyProcessorSupport implements BeanFactoryAware {
 
     private DefaultListableBeanFactory beanFactory;
@@ -27,7 +29,7 @@ public class DynamicProxy extends ProxyProcessorSupport implements BeanFactoryAw
                 continue;
             }
 
-            //判断当前bean是不是已经是代理对象了，是就直接进行Advisor操作
+            //判断当前bean是不是已经是代理对象了，是就直接进行添加或者删除Advisor操作
             if( bean instanceof Advised) {
                 Advised advised = (Advised) bean;
                 if(operateEvent == OperateEvent.DELETE) {

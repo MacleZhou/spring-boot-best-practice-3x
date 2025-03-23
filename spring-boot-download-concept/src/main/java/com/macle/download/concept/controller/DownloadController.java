@@ -1,6 +1,6 @@
 package com.macle.download.concept.controller;
 
-import com.github.linyuzai.download.core.annotation.Download;;
+import com.github.linyuzai.download.core.annotation.Download;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;

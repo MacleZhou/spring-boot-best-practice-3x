@@ -66,6 +66,21 @@ public class SecurityProxyService {
     }
 
     /**
+     * 通过此方法分析Spring components的依赖顺序，通过依赖顺序定义创建代理对象的先后顺序。比如有一个TestController通过@Autowired或@Resource或
+     * 者构造方法等方式依赖了一个TestService的bean，则当TestService本身也需要被代理时，处理起来就比较复杂，需要先生成TestService的代理对象，然后
+     * 把TestController中对TestService的依赖指向新创建的TestService的代理对象，否则TestController中引用的任然是代理前TestService bean。以下
+     * 是一些确定顺序的关键信息
+     * 1. 只需要考虑通过@Component/@RestController/@Controller/@Service等标识的对象，@Repository的不需要考虑
+     * 2. @RestController或@Controller标识的可以总是最后处理
+     * 3. 如果一个Bean已经是Advised的实例，即已经被代理过了，则可以第一个处理，因为不会在创建新的代理对象，只会在原代理对象上增加代理逻辑
+     *
+     * 备注，查找依赖时，如果一个对象已经被代理过，这不能
+     * */
+    private void analysisDependencies(List<SecuredResource> securedResources){
+
+    }
+
+    /**
      * 安装expression或者annotation增加Advise
      * @param advice - 增强的类，调用类中的invoke方法, 比如 com.macle.security.sdk.interceptor.PreAuthorityAdvice
      * @param expression - 表达式型的增强点, 比如execution(public com.macle.security.sdk.test.service.TestService.approval(..))

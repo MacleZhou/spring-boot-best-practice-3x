@@ -1,11 +1,12 @@
 package com.macle.security.sdk.service;
 
 import com.alibaba.fastjson2.JSON;
-import com.macle.security.sdk.config.SecurityConfig;
+import com.macle.security.sdk.annotation.ConditionalOnClassname;
+import com.macle.security.sdk.annotation.ConditionalOnVariableTrue;
 import com.macle.security.sdk.model.Permission;
-import com.macle.security.sdk.model.SecuredResource;
-import jakarta.annotation.Resource;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -15,9 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
+@ConditionalOnVariableTrue("security.authorization.enabled")
+@ConditionalOnClassname(value="security.authorization.user.permission.loader")
 public class LocalFileUserPermissionLoader implements UserPermissionLoader {
-    @Resource
-    private SecurityConfig securityConfig;
+    @Value("${security.authorization.user.permission.folder}")
+    private String userPermissionFolder;
 
     Map<String, Map<String, Permission>> userPermissions = new ConcurrentHashMap<>();
 
@@ -49,7 +53,7 @@ public class LocalFileUserPermissionLoader implements UserPermissionLoader {
         Map<String, Permission> permissionMap = new HashMap<>();
         userPermissions.put(userId, permissionMap);
 
-        File file = ResourceUtils.getFile(securityConfig.getUserPermissionFolder() + File.separator + userId + ".json");
+        File file = ResourceUtils.getFile(userPermissionFolder + File.separator + userId + ".json");
         if(file.exists()){
             String json = FileUtils.readFileToString(file, "UTF-8");
             List<Permission> permissions = JSON.parseArray(json, Permission.class);

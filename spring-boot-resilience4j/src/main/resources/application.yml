@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+resilience4j:
+ ratelimiter:
+  instances:
+    exampleRateLimiter:
+      limitForPeriod: 5 # 每秒允许的最大请求数
+      limitRefreshPeriod: 1s # 刷新周期为1秒
+      timeoutDuration: 0 # 超时时间为0，表示立即返回结果

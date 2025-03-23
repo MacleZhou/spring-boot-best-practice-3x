@@ -5,7 +5,6 @@ import com.macle.security.sdk.model.ResourceType;
 import com.macle.security.sdk.model.SecuredResource;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
@@ -33,8 +32,6 @@ public class SecuredResourceLoader {
      * public java.lang.String com.macle.study.springboot.aop.controller.AdvisorController.delete(java.lang.String,java.lang.String,java.lang.String) throws java.lang.Exception
      */
     private Map<Method, SecuredResource> cachedSecuredResources = new ConcurrentHashMap<>();
-    //private Map<String, Method> cachedResourceIdAndMethodMap = new ConcurrentHashMap<>();
-
 
     @Resource
     private ApplicationContext applicationContext;
@@ -76,7 +73,6 @@ public class SecuredResourceLoader {
             securedResource.setPreDataAuthority(securedPointAnnotation.preDataAuthority());
             securedResource.setPostDataAuthority(securedPointAnnotation.postDataAuthority());
             cachedSecuredResources.put(method, securedResource);
-            //cachedResourceIdAndMethodMap.put(method.toString(), method);
             securedResources.add(securedResource);
         }
         return securedResources;
@@ -211,7 +207,6 @@ public class SecuredResourceLoader {
         }
         return null;
     }
-
 
     /**
      * 从Spring容器中查找所有@SecuredPoint的方法

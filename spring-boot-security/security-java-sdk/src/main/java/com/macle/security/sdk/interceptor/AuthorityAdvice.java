@@ -1,5 +1,6 @@
 package com.macle.security.sdk.interceptor;
 
+import com.macle.security.sdk.annotation.ConditionalOnVariableTrue;
 import com.macle.security.sdk.config.ApplicationContextHolder;
 import com.macle.security.sdk.model.DataPermission;
 import com.macle.security.sdk.model.Permission;
@@ -27,6 +28,7 @@ import java.lang.reflect.Method;
 
 @Slf4j
 @Component
+@ConditionalOnVariableTrue("security.authorization.enabled")
 public class AuthorityAdvice implements MethodInterceptor {
 
     @Resource
@@ -60,13 +62,10 @@ public class AuthorityAdvice implements MethodInterceptor {
         }
         SecuredResource securedResource = securedResourceLoader.getSecuredResource(invocation.getMethod());
 
-        String userId = "bsnpbq5";
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        if(securityContext != null) {
-            Authentication authentication = securityContext.getAuthentication();
-            org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-            userId = user.getUsername();
-        }
+        Authentication authentication = securityContext.getAuthentication();
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        String userId = user.getUsername();
 
         Permission permission = userPermissionLoader.loadPermission(userId, securedResource.getPermissionId());
 
